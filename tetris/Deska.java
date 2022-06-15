@@ -349,18 +349,22 @@ public class Deska extends JPanel {
                     pause();
                     break;
                 case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_A:
                     if(!jeKonecIgre)
                     tryMove(trenutniLik, trenutniX - 1, trenutniY);
                     break;
                 case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_D:
                     if(!jeKonecIgre)
                     tryMove(trenutniLik, trenutniX + 1, trenutniY);
                     break;
                 case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_S:
                     if(!jeKonecIgre)
                     tryMove(trenutniLik.obrniDesno(), trenutniX, trenutniY);
                     break;
                 case KeyEvent.VK_UP:
+                case KeyEvent.VK_W:
                     if(!jeKonecIgre)
                     tryMove(trenutniLik.obrniLevo(), trenutniX, trenutniY);
                     break;
@@ -369,10 +373,6 @@ public class Deska extends JPanel {
                     dropDown();
                     else
                     konecIgre();
-                    break;
-                case KeyEvent.VK_D:
-                    if(!jeKonecIgre)
-                    oneLineDown();
                     break;
                 case KeyEvent.VK_Y:
                 case KeyEvent.VK_ENTER:

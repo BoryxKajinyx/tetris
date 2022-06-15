@@ -22,7 +22,7 @@ public class Tetris extends JFrame {
 
         setTitle("Tetris");
         setSize(500, 800);
-        setResizable(false);
+        //setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
