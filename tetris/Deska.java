@@ -227,15 +227,23 @@ public class Deska extends JPanel {
             switch(numFullLines){
                 case 1:
                 točke+=100;
+                if(level>0)
+                točke+=100*(level-1);
                 break;
                 case 2:
                 točke+=300;
+                if(level>0)
+                točke+=300*(level-1);
                 break;
                 case 3:
                 točke+=500;
+                if(level>0)
+                točke+=500*(level-1);
                 break;
                 case 4:
                 točke+=800;
+                if(level>0)
+                točke+=800*(level-1);
                 break;
             }
             statusbar="Točke: "+String.valueOf(točke);
