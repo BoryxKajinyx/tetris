@@ -2,7 +2,7 @@ package tetris;
 
 public class Lik {
 
-    protected enum Liki {
+    public enum Liki {
         NoShape, ZShape, SShape, LineShape,
         TShape, SquareShape, LShape, MirroredLShape
     }
@@ -11,13 +11,11 @@ public class Lik {
     private int[][] koordinati;
 
     public Lik() {
-
         koordinati = new int[4][2];
         setLik(Liki.NoShape);
     }
 
     void setLik(Liki lik) {
-
         int[][][] tabelaKoordinatov = new int[][][]{
                 {{0, 0}, {0, 0}, {0, 0}, {0, 0}},
                 {{0, -1}, {0, 0}, {-1, 0}, {-1, 1}},
@@ -30,7 +28,6 @@ public class Lik {
         };
 
         for (int i = 0; i < 4; i++) {
-
             System.arraycopy(tabelaKoordinatov[lik.ordinal()], 0, koordinati, 0, 4);
         }
 
@@ -38,32 +35,26 @@ public class Lik {
     }
 
     private void setX(int index, int x) {
-
         koordinati[index][0] = x;
     }
 
     private void setY(int index, int y) {
-
         koordinati[index][1] = y;
     }
 
     int x(int index) {
-
         return koordinati[index][0];
     }
 
     int y(int index) {
-
         return koordinati[index][1];
     }
 
     Liki getLik() {
-
         return trenutniLik;
     }
 
     void setRandomLik() {
-
         int x = (int)(Math.random()*7)+1;
 
         Liki[] values = Liki.values();
@@ -71,11 +62,9 @@ public class Lik {
     }
 
     public int minX() {
-
         int m = koordinati[0][0];
 
         for (int i = 0; i < 4; i++) {
-
             m = Math.min(m, koordinati[i][0]);
         }
 
@@ -84,11 +73,9 @@ public class Lik {
 
 
     int minY() {
-
         int m = koordinati[0][1];
 
         for (int i = 0; i < 4; i++) {
-
             m = Math.min(m, koordinati[i][1]);
         }
 
@@ -96,9 +83,7 @@ public class Lik {
     }
 
     Lik obrniLevo() {
-
         if (trenutniLik == Liki.SquareShape) {
-
             return this;
         }
 
@@ -106,7 +91,6 @@ public class Lik {
         result.trenutniLik = trenutniLik;
 
         for (int i = 0; i < 4; i++) {
-
             result.setX(i, y(i));
             result.setY(i, -x(i));
         }
@@ -115,9 +99,7 @@ public class Lik {
     }
 
     Lik obrniDesno() {
-
         if (trenutniLik == Liki.SquareShape) {
-
             return this;
         }
 
@@ -125,7 +107,6 @@ public class Lik {
         result.trenutniLik = trenutniLik;
 
         for (int i = 0; i < 4; i++) {
-
             result.setX(i, -y(i));
             result.setY(i, x(i));
         }

@@ -37,6 +37,7 @@ public class Deska extends JPanel {
     private Lik trenutniLik;
     private Lik naslednjiLik;
     private Lik shranjenLik;
+    
     private Liki[] deska;
 
     private InfoDisplay display;
@@ -121,6 +122,8 @@ public class Deska extends JPanel {
             }
         }
         if(jeKonecIgre){
+            g.setColor(new Color(125,125,125,125));
+            g.fillRect(0, getHeight()/3-50, getWidth(), 200);
             g.setFont(new Font("default", Font.PLAIN, 40));
             g.setColor(Color.BLACK);
             g.drawString("Game over.", getWidth()/4, getHeight()/3);
@@ -302,8 +305,10 @@ public class Deska extends JPanel {
             timer.stop();
         }else{
             jeKonecIgre=false;
+            naslednjiLik.setRandomLik();
             clearBoard();
             newPiece();
+            shranjenLik.setLik(Liki.NoShape);
             timer.start();
             točke=0;
         }
@@ -314,7 +319,7 @@ public class Deska extends JPanel {
     }
 
     private void doGraphicsCycle(){
-        display.update(shranjenLik,naslednjiLik,statusbar,level);
+        display.update(shranjenLik,naslednjiLik,statusbar,level,štOdstranjenihVrstic);
         display.repaint();
         repaint();
     }
@@ -336,7 +341,6 @@ public class Deska extends JPanel {
     class TAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            
             int keycode = e.getKeyCode();
 
             switch (keycode) {

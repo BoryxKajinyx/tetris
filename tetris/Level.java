@@ -3,19 +3,14 @@ package tetris;
 public class Level {
     private Level(){}
     final static double[] delays ={1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0.09,0.08,0.07,0.06,0.05};
-    final static int[] levels ={10,20,30,40,50,60,70,80,90,100,100,100,100,100,100,110,120,130,140,150,160,170,180,190,200,200,200,200};
+    final static int[] levels ={10,20,30,40,50,60,70,80,90,100,100,100,100,100,100,110,120,130,140,150,160,170,180,190,200,200,200,200,0};
     public static int checkLevel(int štVrstic){
         int index=0;
-        štVrstic-=levels[0];
-        while(štVrstic>0){
-            if(štVrstic-levels[index+1]>0){
-                index++;
-                štVrstic-=levels[index];
-            }
-            else
-            break;
+        while(štVrstic>0&&index<30){
+            štVrstic-=levels[index];
+            index++;
         }
-        return index;
+        return index-1;
     }
     public static int getDelay(int level){
         int baseDelay=300;
@@ -97,5 +92,15 @@ public class Level {
             case 29:return (int)(delays[14]*baseDelay);
             default:return (int) (delays[0]*baseDelay);
         }
+    }
+    public static int getLinesToLevel(int level){
+        int lines=0;
+        if(level<29)
+        for(int i=0;i<=level;i++){
+            lines+=levels[i];
+        }
+        else
+        lines=0;
+        return lines;
     }
 }

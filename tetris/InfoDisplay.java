@@ -13,6 +13,7 @@ public class InfoDisplay extends JPanel{
     private int širinaKvadrata;
     private int višinaKvadrata;
     private int level;
+    private int štVrstic;
 
     private Lik shranjenLik;
     private Lik naslednjiLik;
@@ -44,13 +45,14 @@ public class InfoDisplay extends JPanel{
         g.drawLine(x + širinaKvadrata - 1, y + višinaKvadrata - 1,
                  x + širinaKvadrata - 1, y + 1);
     }
-    public void update(Lik shranjen,Lik naslednji,String status,int level){
+    public void update(Lik shranjen,Lik naslednji,String status,int level,int štVrstic){
         širinaKvadrata=getWidth()/5;
         višinaKvadrata=getWidth()/5;
         shranjenLik=shranjen;
         naslednjiLik=naslednji;
         statusbar=status;
         this.level=level;
+        this.štVrstic=štVrstic;
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -87,7 +89,10 @@ public class InfoDisplay extends JPanel{
         g.setFont(new Font("default", Font.PLAIN, 20));
         g.drawString("Naslednji lik:",20,nY);
         g.drawString("Shranjen lik:",20,sY);
-        g.drawString("Level: "+level, 20, sY+višinaKvadrata*6);
+        g.drawString("Level: "+level, 10, sY+višinaKvadrata*6);
+        g.setFont(new Font("default", Font.PLAIN, 12));
+        g.drawString("odstranjene vrstice: "+štVrstic, 10, sY+višinaKvadrata*7);
+        g.drawString("Št vrstic do levla: "+(Level.getLinesToLevel(level)-štVrstic), 10, sY+višinaKvadrata*8);
         g.drawString(statusbar, 5, getHeight()/16);
     }
 }
