@@ -1,8 +1,8 @@
 package tetris;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
 import tetris.Lik.Liki;
 
 import java.awt.Color;
@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 public class Deska extends JPanel {
 
@@ -25,6 +26,7 @@ public class Deska extends JPanel {
     private boolean jeKonecPada = false;
     private boolean jaPavza = false;
     private boolean jeKonecIgre = false;
+    private boolean confirm=false;
 
     private int štOdstranjenihVrstic=0;
     private int trenutniX = 0;
@@ -39,6 +41,7 @@ public class Deska extends JPanel {
     private Lik shranjenLik;
     
     private Liki[] deska;
+    private Score[] scores;
 
     private InfoDisplay display;
 
@@ -46,10 +49,17 @@ public class Deska extends JPanel {
         initBoard(parent,display);
     }
 
-    private void initBoard(Tetris parent,InfoDisplay display) {
+    private void initBoard(Tetris parent,InfoDisplay display){
         setFocusable(true);
         addKeyListener(new TAdapter());
         this.display=display;
+        try{
+            scores=io.beriStart();
+        }
+        catch(IOException e){
+            scores=new Score[0];
+        }
+        display.updateScores(scores);
     }
 
     private int širinaKvadrata() {
@@ -76,15 +86,11 @@ public class Deska extends JPanel {
         infoTimer = new Timer(1, new GraphicsCycle());
         infoTimer.start();
         timer.start();
+        confirm=false;
     }
 
     private void pause() {
-        jaPavza = !jaPavza;
-        if (jaPavza) {
-            statusbar="Pavza.";
-        } else {
-            statusbar="Točke: "+String.valueOf(točke);
-        }
+        jaPavza=!jaPavza;
     }
 
     @Override
@@ -121,6 +127,7 @@ public class Deska extends JPanel {
                         trenutniLik.getLik());
             }
         }
+        
         if(jeKonecIgre){
             g.setColor(new Color(125,125,125,125));
             g.fillRect(0, getHeight()/3-50, getWidth(), 200);
@@ -131,6 +138,22 @@ public class Deska extends JPanel {
             g.setFont(new Font("default", Font.PLAIN, 30));
             g.drawString("Pritisni presledek", getWidth()/5, getHeight()/3+100);
             g.drawString("za novo igro", getWidth()/4, getHeight()/3+130);
+            if(!confirm){
+                confirm=true;
+                if(JOptionPane.showConfirmDialog(display, "Ali želiš shraniti rezultat igre?", "", JOptionPane.YES_NO_OPTION)==0){
+                    scores=io.dodajZapis(scores,new Score(točke,JOptionPane.showInputDialog(display,"Vnesi ime:")));
+                    try{io.piši(scores);}catch(IOException e){}
+                    display.updateScores(scores);
+                }
+            }
+        }
+        if(jaPavza){
+            g.setColor(new Color(125,125,125,125));
+            g.fillRect(0, getHeight()/3-50, getWidth(),getHeight()/2);
+            g.setFont(new Font("default", Font.PLAIN, 40));
+            g.setColor(Color.BLACK);
+            g.drawString("Pavza", getWidth()/2-50, getHeight()/3);
+  
         }
     }
 
@@ -276,11 +299,9 @@ public class Deska extends JPanel {
         statusbar="Točke: "+String.valueOf(točke);
         updateDelay();
         if (jaPavza) {
-            statusbar="Pavza";
             return;
         }
         if(jeKonecIgre){
-            statusbar="Game over";
             return;
         }
         if (jeKonecPada) {
@@ -313,6 +334,7 @@ public class Deska extends JPanel {
             timer.stop();
         }else{
             jeKonecIgre=false;
+            confirm=false;
             naslednjiLik.setRandomLik();
             clearBoard();
             newPiece();
@@ -358,33 +380,33 @@ public class Deska extends JPanel {
                     break;
                 case KeyEvent.VK_LEFT:
                 case KeyEvent.VK_A:
-                    if(!jeKonecIgre)
+                    if(!jeKonecIgre&&!jaPavza)
                     tryMove(trenutniLik, trenutniX - 1, trenutniY);
                     break;
                 case KeyEvent.VK_RIGHT:
                 case KeyEvent.VK_D:
-                    if(!jeKonecIgre)
+                    if(!jeKonecIgre&&!jaPavza)
                     tryMove(trenutniLik, trenutniX + 1, trenutniY);
                     break;
                 case KeyEvent.VK_DOWN:
                 case KeyEvent.VK_S:
-                    if(!jeKonecIgre)
+                    if(!jeKonecIgre&&!jaPavza)
                     tryMove(trenutniLik.obrniDesno(), trenutniX, trenutniY);
                     break;
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_W:
-                    if(!jeKonecIgre)
+                    if(!jeKonecIgre&&!jaPavza)
                     tryMove(trenutniLik.obrniLevo(), trenutniX, trenutniY);
                     break;
                 case KeyEvent.VK_SPACE:
-                    if(!jeKonecIgre)
+                    if(!jeKonecIgre&&!jaPavza)
                     dropDown();
                     else
                     konecIgre();
                     break;
                 case KeyEvent.VK_Y:
                 case KeyEvent.VK_ENTER:
-                    if(!jeKonecIgre)
+                    if(!jeKonecIgre&&!jaPavza)
                     shraniLik();
                     break;
                 case KeyEvent.VK_BACK_SPACE:

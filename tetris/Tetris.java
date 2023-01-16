@@ -3,6 +3,7 @@ package tetris;
 import javax.swing.JFrame;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 public class Tetris extends JFrame {
@@ -15,8 +16,9 @@ public class Tetris extends JFrame {
         var display =new InfoDisplay();
         var deska = new Deska(this,display);
 
-        add(deska,BorderLayout.CENTER);
         add(display,BorderLayout.EAST);
+        display.setPreferredSize(new Dimension(150,getHeight()));
+        add(deska,BorderLayout.CENTER);
 
         deska.start();
 

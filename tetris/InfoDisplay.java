@@ -1,13 +1,13 @@
 package tetris;
 
 import tetris.Lik.Liki;
-import javax.swing.JLabel;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Font;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 public class InfoDisplay extends JPanel{
 
     private int širinaKvadrata;
@@ -18,14 +18,26 @@ public class InfoDisplay extends JPanel{
     private Lik shranjenLik;
     private Lik naslednjiLik;
 
-    private JLabel label;
     private String statusbar;
+    private JScrollPane sp;
+    private JTextArea jta;
 
     public InfoDisplay() {
-        label=new JLabel("▒▒▒▒▒▒▒▒▒▒▒");
-        add(label,BorderLayout.SOUTH);
+        this.setLayout(new BorderLayout());
+        sp=new JScrollPane();
+        jta=new JTextArea();
+        jta.setRows(12);
+        jta.setColumns(9);
+        sp.setViewportView(jta);
+        this.add(sp,BorderLayout.SOUTH);
     }
-    
+    private void polni(Score[] scores){
+        jta.setText("");
+        for (int i = scores.length-1; i >=0 ; i--) {
+            jta.append(scores[i].name+"    "+scores[i].point+"\n");
+        }
+        jta.setCaretPosition(0);
+    }
 
     private void drawSquare(Graphics g, int x, int y, Liki shape) {
         Color colors[] = {new Color(0, 0, 0), new Color(204, 102, 102),
@@ -53,6 +65,9 @@ public class InfoDisplay extends JPanel{
         statusbar=status;
         this.level=level;
         this.štVrstic=štVrstic;
+    }
+    public void updateScores(Score[] scores){
+        polni(scores);
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
