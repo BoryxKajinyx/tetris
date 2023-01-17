@@ -23,7 +23,7 @@ public class Tetris extends JFrame {
         deska.start();
 
         setTitle("Tetris");
-        setSize(500, 800);
+        setSize(520, 800);
         //setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
