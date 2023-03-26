@@ -8,6 +8,7 @@ import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 public class InfoDisplay extends JPanel{
 
     private int širinaKvadrata;
@@ -29,6 +30,7 @@ public class InfoDisplay extends JPanel{
         jta.setRows(12);
         jta.setColumns(9);
         sp.setViewportView(jta);
+        sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         this.add(sp,BorderLayout.SOUTH);
     }
     private void polni(Score[] scores){
@@ -65,6 +67,12 @@ public class InfoDisplay extends JPanel{
         statusbar=status;
         this.level=level;
         this.štVrstic=štVrstic;
+        if(shranjenLik==null)
+        shranjenLik.setLik(Liki.NoShape);
+        if(naslednjiLik==null)
+        naslednjiLik.setLik(Liki.NoShape);
+        if(statusbar==null)
+        statusbar="";
     }
     public void updateScores(Score[] scores){
         polni(scores);
@@ -74,40 +82,44 @@ public class InfoDisplay extends JPanel{
         doDrawing(g);
     }
     public void doDrawing(Graphics g){
-        
+
+
         g.drawLine(0, 0, 0, getHeight());
 
         int nY=getHeight()/8;
-        for (int i = 0; i < 4; i++) {
-            int x = 50 + naslednjiLik.x(i)*širinaKvadrata;
-            int y = nY+širinaKvadrata+širinaKvadrata/2 - naslednjiLik.y(i)*višinaKvadrata;
-            if(naslednjiLik.getLik().equals(Liki.LineShape)){
-                y+=širinaKvadrata;
+        try{
+            for (int i = 0; i < 4; i++) {
+                int x = 50 + naslednjiLik.x(i)*širinaKvadrata;
+                int y = nY+širinaKvadrata+širinaKvadrata/2 - naslednjiLik.y(i)*višinaKvadrata;
+                if(naslednjiLik.getLik().equals(Liki.LineShape)){
+                    y+=širinaKvadrata;
+                }
+                drawSquare(g, x, y, naslednjiLik.getLik());
             }
-            drawSquare(g, x, y, naslednjiLik.getLik());
-        }
-        
-        int sY=nY+višinaKvadrata*6;
-        if(!shranjenLik.getLik().equals(Liki.NoShape))
-        for (int i = 0; i < 4; i++) {
-            int x = 50 + shranjenLik.x(i)*širinaKvadrata;
-            int y = sY+širinaKvadrata+širinaKvadrata/2 - shranjenLik.y(i)*višinaKvadrata;
-            if(shranjenLik.getLik().equals(Liki.LineShape))
-            y+=širinaKvadrata;
-            drawSquare(g, x, y, shranjenLik.getLik());
-        }
+            
+            
+            int sY=nY+višinaKvadrata*6;
+            if(!shranjenLik.getLik().equals(Liki.NoShape))
+            for (int i = 0; i < 4; i++) {
+                int x = 50 + shranjenLik.x(i)*širinaKvadrata;
+                int y = sY+širinaKvadrata+širinaKvadrata/2 - shranjenLik.y(i)*višinaKvadrata;
+                if(shranjenLik.getLik().equals(Liki.LineShape))
+                y+=širinaKvadrata;
+                drawSquare(g, x, y, shranjenLik.getLik());
+            }
 
-        g.setColor(Color.BLACK);
-        g.fillRect(0, nY-30, getWidth(), 2);
-        g.fillRect(0, sY-30, getWidth(), 2);
-        g.fillRect(0, sY+višinaKvadrata*6-30, getWidth(), 2);
-        g.setFont(new Font("default", Font.PLAIN, 20));
-        g.drawString("Naslednji lik:",20,nY);
-        g.drawString("Shranjen lik:",20,sY);
-        g.drawString("Level: "+level, 10, sY+višinaKvadrata*6);
-        g.setFont(new Font("default", Font.PLAIN, 12));
-        g.drawString("odstranjene vrstice: "+štVrstic, 10, sY+višinaKvadrata*7);
-        g.drawString("Št vrstic do levla: "+(Level.getLinesToLevel(level)-štVrstic), 10, sY+višinaKvadrata*8);
-        g.drawString(statusbar, 5, getHeight()/16);
+            g.setColor(Color.BLACK);
+            g.fillRect(0, nY-30, getWidth(), 2);
+            g.fillRect(0, sY-30, getWidth(), 2);
+            g.fillRect(0, sY+višinaKvadrata*6-30, getWidth(), 2);
+            g.setFont(new Font("default", Font.PLAIN, 20));
+            g.drawString("Naslednji lik:",20,nY);
+            g.drawString("Shranjen lik:",20,sY);
+            g.drawString("Level: "+level, 10, sY+višinaKvadrata*6);
+            g.setFont(new Font("default", Font.PLAIN, 12));
+            g.drawString("odstranjene vrstice: "+štVrstic, 10, sY+višinaKvadrata*7);
+            g.drawString("Št vrstic do levla: "+(Level.getLinesToLevel(level)-štVrstic), 10, sY+višinaKvadrata*8);
+            g.drawString(statusbar, 5, getHeight()/16);
+        }catch(NullPointerException x){}
     }
 }

@@ -55,6 +55,7 @@ public class Deska extends JPanel {
         this.display=display;
         try{
             scores=io.beriStart();
+            io.piši(scores);
         }
         catch(IOException e){
             scores=new Score[0];

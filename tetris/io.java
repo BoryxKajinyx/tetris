@@ -4,7 +4,7 @@ public class io {
     public static Score[] beriStart() throws IOException{
         FileReader fr=new FileReader("tetris/Zapis.txt");
         Score[] scores = new Score[prestejZapise(fr)];
-        fr=new FileReader("Zapis.txt");
+        fr=new FileReader("tetris/Zapis.txt");
         BufferedReader br=new BufferedReader(fr);
         for (int i = 0; i < scores.length; i++) {
             scores[i]=new Score();
@@ -43,7 +43,7 @@ public class io {
     public static void sort(Score[] array){
         for (int i = 0; i < array.length - 1; i++)
             for (int j = 0; j < array.length - i - 1; j++)
-                if (array[j].point > array[j + 1].point) {
+                if (array[j].point < array[j + 1].point) {
                     // swap arr[j+1] and arr[j]
                     Score temp = array[j];
                     array[j] = array[j + 1];
@@ -51,7 +51,8 @@ public class io {
                 }
     }
     public static void piši(Score[] sb)throws IOException{
-        PrintWriter pw=new PrintWriter(new File("Zapis.txt"));
+        PrintWriter pw=new PrintWriter(new File("tetris/Zapis.txt"));
+        sort(sb);
         for (int i = 0; i < sb.length; i++) {
             pw.println(sb[i].name);
             pw.println(sb[i].point);
