@@ -1,13 +1,9 @@
 package tetris;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.Timer;
 import tetris.Lik.Liki;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -21,7 +17,6 @@ public class Deska extends JPanel {
     private final int BASE_DELAY = 400;
 
     private Timer timer;
-    private Timer infoTimer;
 
     private boolean jeKonecPada = false;
     private boolean jaPavza = false;
@@ -45,11 +40,11 @@ public class Deska extends JPanel {
 
     private InfoDisplay display;
 
-    public Deska(Tetris parent,InfoDisplay display) {
-        initBoard(parent,display);
+    public Deska(InfoDisplay display) {
+        initBoard(display);
     }
 
-    private void initBoard(Tetris parent,InfoDisplay display){
+    private void initBoard(InfoDisplay display){
         setFocusable(true);
         addKeyListener(new TAdapter());
         this.display=display;
@@ -84,7 +79,7 @@ public class Deska extends JPanel {
         clearBoard();
         newPiece();
         timer = new Timer(Level.getDelay(level,BASE_DELAY), new GameCycle());
-        infoTimer = new Timer(1, new GraphicsCycle());
+        Timer infoTimer = new Timer(1, new GraphicsCycle());
         infoTimer.start();
         timer.start();
         confirm=false;
@@ -143,7 +138,7 @@ public class Deska extends JPanel {
                 confirm=true;
                 if(JOptionPane.showConfirmDialog(display, "Ali želiš shraniti rezultat igre?", "", JOptionPane.YES_NO_OPTION)==0){
                     scores=io.dodajZapis(scores,new Score(točke,JOptionPane.showInputDialog(display,"Vnesi ime:")));
-                    try{io.piši(scores);}catch(IOException e){}
+                    try{io.piši(scores);}catch(IOException ignored){}
                     display.updateScores(scores);
                 }
             }
@@ -248,29 +243,29 @@ public class Deska extends JPanel {
         }
         if (numFullLines > 0) {
             štOdstranjenihVrstic+=numFullLines;
-            switch(numFullLines){
-                case 1:
-                točke+=100;
-                if(level>0)
-                točke+=100*(level-1);
-                break;
-                case 2:
-                točke+=300;
-                if(level>0)
-                točke+=300*(level-1);
-                break;
-                case 3:
-                točke+=500;
-                if(level>0)
-                točke+=500*(level-1);
-                break;
-                case 4:
-                točke+=800;
-                if(level>0)
-                točke+=800*(level-1);
-                break;
+            switch (numFullLines) {
+                case 1 -> {
+                    točke += 100;
+                    if (level > 0)
+                        točke += 100 * (level - 1);
+                }
+                case 2 -> {
+                    točke += 300;
+                    if (level > 0)
+                        točke += 300 * (level - 1);
+                }
+                case 3 -> {
+                    točke += 500;
+                    if (level > 0)
+                        točke += 500 * (level - 1);
+                }
+                case 4 -> {
+                    točke += 800;
+                    if (level > 0)
+                        točke += 800 * (level - 1);
+                }
             }
-            statusbar="Točke: "+String.valueOf(točke);
+            statusbar="Točke: "+ točke;
             jeKonecPada = true;
             trenutniLik.setLik(Liki.NoShape);
             level=Level.checkLevel(štOdstranjenihVrstic);
@@ -278,7 +273,7 @@ public class Deska extends JPanel {
     }
 
     private void drawSquare(Graphics g, int x, int y, Liki shape) {
-        Color colors[] = {new Color(0, 0, 0), new Color(204, 102, 102),
+        Color[] colors = {new Color(0, 0, 0), new Color(204, 102, 102),
                 new Color(102, 204, 102), new Color(102, 102, 204),
                 new Color(204, 204, 102), new Color(204, 102, 204),
                 new Color(102, 204, 204), new Color(218, 170, 0)
@@ -297,7 +292,7 @@ public class Deska extends JPanel {
     }
 
     private void update() {
-        statusbar="Točke: "+String.valueOf(točke);
+        statusbar="Točke: "+ točke;
         updateDelay();
         if (jaPavza) {
             return;
@@ -375,44 +370,37 @@ public class Deska extends JPanel {
             int keycode = e.getKeyCode();
 
             switch (keycode) {
-                case KeyEvent.VK_P:
-                    if(!jeKonecIgre)
-                    pause();
-                    break;
-                case KeyEvent.VK_LEFT:
-                case KeyEvent.VK_A:
-                    if(!jeKonecIgre&&!jaPavza)
-                    tryMove(trenutniLik, trenutniX - 1, trenutniY);
-                    break;
-                case KeyEvent.VK_RIGHT:
-                case KeyEvent.VK_D:
-                    if(!jeKonecIgre&&!jaPavza)
-                    tryMove(trenutniLik, trenutniX + 1, trenutniY);
-                    break;
-                case KeyEvent.VK_DOWN:
-                case KeyEvent.VK_S:
-                    if(!jeKonecIgre&&!jaPavza)
-                    tryMove(trenutniLik.obrniDesno(), trenutniX, trenutniY);
-                    break;
-                case KeyEvent.VK_UP:
-                case KeyEvent.VK_W:
-                    if(!jeKonecIgre&&!jaPavza)
-                    tryMove(trenutniLik.obrniLevo(), trenutniX, trenutniY);
-                    break;
-                case KeyEvent.VK_SPACE:
-                    if(!jeKonecIgre&&!jaPavza)
-                    dropDown();
+                case KeyEvent.VK_P -> {
+                    if (!jeKonecIgre)
+                        pause();
+                }
+                case KeyEvent.VK_LEFT, KeyEvent.VK_A -> {
+                    if (!jeKonecIgre && !jaPavza)
+                        tryMove(trenutniLik, trenutniX - 1, trenutniY);
+                }
+                case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> {
+                    if (!jeKonecIgre && !jaPavza)
+                        tryMove(trenutniLik, trenutniX + 1, trenutniY);
+                }
+                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> {
+                    if (!jeKonecIgre && !jaPavza)
+                        tryMove(trenutniLik.obrniDesno(), trenutniX, trenutniY);
+                }
+                case KeyEvent.VK_UP, KeyEvent.VK_W -> {
+                    if (!jeKonecIgre && !jaPavza)
+                        tryMove(trenutniLik.obrniLevo(), trenutniX, trenutniY);
+                }
+                case KeyEvent.VK_SPACE -> {
+                    if (!jeKonecIgre && !jaPavza)
+                        dropDown();
                     else
-                    konecIgre();
-                    break;
-                case KeyEvent.VK_Y:
-                case KeyEvent.VK_ENTER:
-                    if(!jeKonecIgre&&!jaPavza)
-                    shraniLik();
-                    break;
-                case KeyEvent.VK_BACK_SPACE:
-                    konecIgre();
-                    break;
+                        konecIgre();
+                }
+                case KeyEvent.VK_Y, KeyEvent.VK_ENTER -> {
+                    if (!jeKonecIgre && !jaPavza)
+                        shraniLik();
+                }
+                case KeyEvent.VK_BACK_SPACE -> konecIgre();
             }
         }
     }

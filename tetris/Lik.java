@@ -8,7 +8,7 @@ public class Lik {
     }
 
     private Liki trenutniLik;
-    private int[][] koordinati;
+    private final int[][] koordinati;
 
     public Lik() {
         koordinati = new int[4][2];
@@ -59,16 +59,6 @@ public class Lik {
 
         Liki[] values = Liki.values();
         setLik(values[x]);
-    }
-
-    public int minX() {
-        int m = koordinati[0][0];
-
-        for (int i = 0; i < 4; i++) {
-            m = Math.min(m, koordinati[i][0]);
-        }
-
-        return m;
     }
 
 

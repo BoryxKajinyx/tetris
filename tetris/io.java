@@ -1,17 +1,22 @@
 package tetris;
 import java.io.*;
 public class io {
-    public static Score[] beriStart() throws IOException{
-        FileReader fr=new FileReader("tetris/Zapis.txt");
-        Score[] scores = new Score[prestejZapise(fr)];
-        fr=new FileReader("tetris/Zapis.txt");
-        BufferedReader br=new BufferedReader(fr);
-        for (int i = 0; i < scores.length; i++) {
-            scores[i]=new Score();
-            scores[i].name=br.readLine();
-            scores[i].point=Integer.parseInt(br.readLine());
-        }
-        br.close();
+
+    public static Score[] beriStart(){
+        Score[] scores=null;
+        try {
+            FileReader fr = new FileReader("tetris/Zapis.txt");
+            scores = new Score[prestejZapise(fr)];
+            fr = new FileReader("tetris/Zapis.txt");
+            BufferedReader br = new BufferedReader(fr);
+            for (int i = 0; i < scores.length; i++) {
+                scores[i] = new Score();
+                scores[i].name = br.readLine();
+                scores[i].point = Integer.parseInt(br.readLine());
+            }
+            br.close();
+        }catch(IOException ignored){}
+        assert scores != null;
         sort(scores);
         return scores;
     }
@@ -51,11 +56,11 @@ public class io {
                 }
     }
     public static void piši(Score[] sb)throws IOException{
-        PrintWriter pw=new PrintWriter(new File("tetris/Zapis.txt"));
+        PrintWriter pw=new PrintWriter("tetris/Zapis.txt");
         sort(sb);
-        for (int i = 0; i < sb.length; i++) {
-            pw.println(sb[i].name);
-            pw.println(sb[i].point);
+        for (Score score : sb) {
+            pw.println(score.name);
+            pw.println(score.point);
         }
         pw.close();
     }

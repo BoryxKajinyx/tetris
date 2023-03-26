@@ -1,14 +1,9 @@
 package tetris;
 
 import tetris.Lik.Liki;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Font;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
+
+import javax.swing.*;
+import java.awt.*;
 public class InfoDisplay extends JPanel{
 
     private int širinaKvadrata;
@@ -20,12 +15,11 @@ public class InfoDisplay extends JPanel{
     private Lik naslednjiLik;
 
     private String statusbar;
-    private JScrollPane sp;
-    private JTextArea jta;
+    private final JTextArea jta;
 
     public InfoDisplay() {
         this.setLayout(new BorderLayout());
-        sp=new JScrollPane();
+        JScrollPane sp = new JScrollPane();
         jta=new JTextArea();
         jta.setRows(12);
         jta.setColumns(9);
@@ -42,7 +36,7 @@ public class InfoDisplay extends JPanel{
     }
 
     private void drawSquare(Graphics g, int x, int y, Liki shape) {
-        Color colors[] = {new Color(0, 0, 0), new Color(204, 102, 102),
+        Color[] colors = {new Color(0, 0, 0), new Color(204, 102, 102),
                 new Color(102, 204, 102), new Color(102, 102, 204),
                 new Color(204, 204, 102), new Color(204, 102, 204),
                 new Color(102, 204, 204), new Color(218, 170, 0)
@@ -67,12 +61,17 @@ public class InfoDisplay extends JPanel{
         statusbar=status;
         this.level=level;
         this.štVrstic=štVrstic;
-        if(shranjenLik==null)
-        shranjenLik.setLik(Liki.NoShape);
-        if(naslednjiLik==null)
-        naslednjiLik.setLik(Liki.NoShape);
-        if(statusbar==null)
-        statusbar="";
+        if(shranjenLik==null) {
+            shranjenLik=new Lik();
+            shranjenLik.setLik(Liki.NoShape);
+        }
+        if(naslednjiLik==null) {
+            naslednjiLik=new Lik();
+            naslednjiLik.setLik(Liki.NoShape);
+        }
+        if(statusbar==null) {
+            statusbar="";
+        }
     }
     public void updateScores(Score[] scores){
         polni(scores);
@@ -100,13 +99,13 @@ public class InfoDisplay extends JPanel{
             
             int sY=nY+višinaKvadrata*6;
             if(!shranjenLik.getLik().equals(Liki.NoShape))
-            for (int i = 0; i < 4; i++) {
-                int x = 50 + shranjenLik.x(i)*širinaKvadrata;
-                int y = sY+širinaKvadrata+širinaKvadrata/2 - shranjenLik.y(i)*višinaKvadrata;
-                if(shranjenLik.getLik().equals(Liki.LineShape))
-                y+=širinaKvadrata;
-                drawSquare(g, x, y, shranjenLik.getLik());
-            }
+                for (int i = 0; i < 4; i++) {
+                    int x = 50 + shranjenLik.x(i)*širinaKvadrata;
+                    int y = sY+širinaKvadrata+širinaKvadrata/2 - shranjenLik.y(i)*višinaKvadrata;
+                    if(shranjenLik.getLik().equals(Liki.LineShape))
+                        y+=širinaKvadrata;
+                    drawSquare(g, x, y, shranjenLik.getLik());
+                }
 
             g.setColor(Color.BLACK);
             g.fillRect(0, nY-30, getWidth(), 2);
@@ -120,6 +119,6 @@ public class InfoDisplay extends JPanel{
             g.drawString("odstranjene vrstice: "+štVrstic, 10, sY+višinaKvadrata*7);
             g.drawString("Št vrstic do levla: "+(Level.getLinesToLevel(level)-štVrstic), 10, sY+višinaKvadrata*8);
             g.drawString(statusbar, 5, getHeight()/16);
-        }catch(NullPointerException x){}
+        }catch(NullPointerException ignored){}
     }
 }

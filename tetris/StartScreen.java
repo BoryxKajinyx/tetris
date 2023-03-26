@@ -1,9 +1,9 @@
 package tetris;
 
-import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Graphics;
 import tetris.Lik.Liki;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class StartScreen extends JPanel{
 
@@ -20,7 +20,7 @@ public class StartScreen extends JPanel{
         new Color(255, 170, 0), new Color(0,0,255)
     };
     private void drawSquare(Graphics g, int x, int y, Liki shape) {
-        Color colors[] =defaultColors;
+        Color[] colors =defaultColors;
         var color = colors[shape.ordinal()];
         g.setColor(color);
         g.fillRect(x + 1, y + 1, 10 -1, 10 -1 );

@@ -14,7 +14,7 @@ public class Tetris extends JFrame {
 
     private void initUI() {
         var display =new InfoDisplay();
-        var deska = new Deska(this,display);
+        var deska = new Deska(display);
 
         add(display,BorderLayout.EAST);
         display.setPreferredSize(new Dimension(150,getHeight()));
