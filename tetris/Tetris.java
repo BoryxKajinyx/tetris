@@ -1,37 +1,35 @@
 package tetris;
 
-import javax.swing.JFrame;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.EventQueue;
+import javax.swing.*;
+import java.awt.*;
 
 public class Tetris extends JFrame {
 
-    public Tetris() {
-        initUI();
+    public Tetris(Color[] colors) {
+        initUI(colors);
     }
 
-    private void initUI() {
+    private void initUI(Color[] colors) {
         var display =new InfoDisplay();
         var deska = new Deska(display);
 
         add(display,BorderLayout.EAST);
         display.setPreferredSize(new Dimension(150,getHeight()));
         add(deska,BorderLayout.CENTER);
-
-        deska.start();
+        deska.setColors(colors);
+        display.setColors(colors);
 
         setTitle("Tetris");
         setSize(520, 800);
         //setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        deska.start();
     }
 
-    public static void main(String[] args) {
+    public static void game(Color[] barve) {
         EventQueue.invokeLater(() -> {
-            var game = new Tetris();
+            var game = new Tetris(barve);
             game.setVisible(true);
         });
     }
