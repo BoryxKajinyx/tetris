@@ -17,6 +17,8 @@ public class InfoDisplay extends JPanel{
     private String statusbar;
     private final JTextArea jta;
 
+    private Color[] colors;
+
     public InfoDisplay() {
         this.setLayout(new BorderLayout());
         JScrollPane sp = new JScrollPane();
@@ -26,21 +28,22 @@ public class InfoDisplay extends JPanel{
         sp.setViewportView(jta);
         sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         this.add(sp,BorderLayout.SOUTH);
+        colors=Colors.defaultC;
     }
     private void polni(Score[] scores){
         jta.setText("");
-        for (int i = scores.length-1; i >=0 ; i--) {
-            jta.append(scores[i].name+"    "+scores[i].point+"\n");
+        for (int i = 0; i <scores.length ; i++) {
+            jta.append(i+1+". "+scores[i].name+"    "+scores[i].point+"\n");
         }
         jta.setCaretPosition(0);
     }
 
+    public void setColors(Color[] colors) {
+        this.colors = colors;
+    }
+
     private void drawSquare(Graphics g, int x, int y, Liki shape) {
-        Color[] colors = {new Color(0, 0, 0), new Color(204, 102, 102),
-                new Color(102, 204, 102), new Color(102, 102, 204),
-                new Color(204, 204, 102), new Color(204, 102, 204),
-                new Color(102, 204, 204), new Color(218, 170, 0)
-        };
+
         var color = colors[shape.ordinal()];
         g.setColor(color);
         g.fillRect(x + 1, y + 1, širinaKvadrata -1, višinaKvadrata -1 );

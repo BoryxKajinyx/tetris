@@ -15,30 +15,24 @@ public class Deska extends JPanel {
     private final int BOARD_WIDTH = 10;
     private final int BOARD_HEIGHT = 22;
     private final int BASE_DELAY = 400;
-
     private Timer timer;
-
     private boolean jeKonecPada = false;
     private boolean jaPavza = false;
     private boolean jeKonecIgre = false;
     private boolean confirm=false;
-
     private int štOdstranjenihVrstic=0;
     private int trenutniX = 0;
     private int trenutniY = 0;
     private int točke=0;
     private int level=0;
-
     private String statusbar;
-
     private Lik trenutniLik;
     private Lik naslednjiLik;
     private Lik shranjenLik;
-    
     private Liki[] deska;
     private Score[] scores;
-
     private InfoDisplay display;
+    private Color[] colors;
 
     public Deska(InfoDisplay display) {
         initBoard(display);
@@ -56,6 +50,7 @@ public class Deska extends JPanel {
             scores=new Score[0];
         }
         display.updateScores(scores);
+        colors=Colors.defaultC;
     }
 
     private int širinaKvadrata() {
@@ -94,7 +89,9 @@ public class Deska extends JPanel {
         super.paintComponent(g);
         doDrawing(g);
     }
-
+    public void setColors(Color[] colors){
+        this.colors=colors;
+    }
     private void doDrawing(Graphics g) {
         g.setColor(new Color(225,225,225));
         for(int i=0;i<getWidth();i+=getWidth()/BOARD_WIDTH){
@@ -273,11 +270,6 @@ public class Deska extends JPanel {
     }
 
     private void drawSquare(Graphics g, int x, int y, Liki shape) {
-        Color[] colors = {new Color(0, 0, 0), new Color(204, 102, 102),
-                new Color(102, 204, 102), new Color(102, 102, 204),
-                new Color(204, 204, 102), new Color(204, 102, 204),
-                new Color(102, 204, 204), new Color(218, 170, 0)
-        };
         var color = colors[shape.ordinal()];
         g.setColor(color);
         g.fillRect(x + 1, y + 1, širinaKvadrata() -1, višinaKvadrata() -1 );
@@ -370,7 +362,7 @@ public class Deska extends JPanel {
             int keycode = e.getKeyCode();
 
             switch (keycode) {
-                case KeyEvent.VK_P -> {
+                case KeyEvent.VK_P, KeyEvent.VK_ESCAPE -> {
                     if (!jeKonecIgre)
                         pause();
                 }
