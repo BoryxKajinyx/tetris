@@ -16,7 +16,7 @@ public class Tetris extends JFrame {
         add(display,BorderLayout.EAST);
         display.setPreferredSize(new Dimension(150,getHeight()));
         add(deska,BorderLayout.CENTER);
-        deska.setColors(colors);
+        deska.setBarve(colors);
         display.setColors(colors);
 
         setTitle("Tetris");

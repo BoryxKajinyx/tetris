@@ -167,33 +167,39 @@ public class StartScreen extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         switch (jComboBox1.getSelectedIndex()) {
-            case 0 -> selectedC = Colors.defaultC;
-            case 1 -> selectedC = Colors.TetrisOriginal;
-            default -> selectedC = customC;
+            case 0:
+                selectedC = Colors.defaultC;
+                break;
+            case 1:
+                selectedC = Colors.TetrisOriginal;
+                break;
+            default:
+                selectedC = customC;
+                break;
         }
         setName("KonecIzbire");
     }
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {
         switch (jComboBox1.getSelectedIndex()) {
-            case 0 -> {
+            case 0:
                 colors = Colors.defaultC;
                 jSlider1.setEnabled(false);
                 jSlider2.setEnabled(false);
                 jSlider3.setEnabled(false);
-            }
-            case 1 -> {
+                break;
+            case 1:
                 colors = Colors.TetrisOriginal;
                 jSlider1.setEnabled(false);
                 jSlider2.setEnabled(false);
                 jSlider3.setEnabled(false);
-            }
-            default -> {
+                break;
+            default:
                 colors = customC;
                 jSlider1.setEnabled(true);
                 jSlider2.setEnabled(true);
                 jSlider3.setEnabled(true);
-            }
+                break;
         }
         jSlider1.setValue(colors[jSlider4.getValue()+1].getBlue());
         jSlider2.setValue(colors[jSlider4.getValue()+1].getGreen());
