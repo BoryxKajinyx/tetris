@@ -35,11 +35,13 @@ public class Main extends JFrame {
 
         pack();
     }
+
     private void panel1PropertyChange(java.beans.PropertyChangeEvent evt) {
         Color[] c=panel1.getSelectedColor();
-        if(c!=null){
+        if(c!=null&&panel1.getName().equalsIgnoreCase("KonecIzbire")){
             Tetris.game(c);
             this.setVisible(false);
+            panel1.setName("Igra");
         }
     }
     public static void main(String[] args) {

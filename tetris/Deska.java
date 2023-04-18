@@ -241,26 +241,26 @@ public class Deska extends JPanel {
         if (numFullLines > 0) {
             štOdstranjenihVrstic+=numFullLines;
             switch (numFullLines) {
-                case 1 -> {
+                case 1:
                     točke += 100;
                     if (level > 0)
                         točke += 100 * (level - 1);
-                }
-                case 2 -> {
+                    break;
+                case 2:
                     točke += 300;
                     if (level > 0)
                         točke += 300 * (level - 1);
-                }
-                case 3 -> {
+                    break;
+                case 3:
                     točke += 500;
                     if (level > 0)
                         točke += 500 * (level - 1);
-                }
-                case 4 -> {
+                    break;
+                case 4:
                     točke += 800;
                     if (level > 0)
                         točke += 800 * (level - 1);
-                }
+                    break;
             }
             statusbar="Točke: "+ točke;
             jeKonecPada = true;
@@ -362,37 +362,45 @@ public class Deska extends JPanel {
             int keycode = e.getKeyCode();
 
             switch (keycode) {
-                case KeyEvent.VK_P, KeyEvent.VK_ESCAPE -> {
+                case KeyEvent.VK_P:
+                case KeyEvent.VK_ESCAPE:
                     if (!jeKonecIgre)
                         pause();
-                }
-                case KeyEvent.VK_LEFT, KeyEvent.VK_A -> {
+                    break;
+                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_A:
                     if (!jeKonecIgre && !jaPavza)
                         tryMove(trenutniLik, trenutniX - 1, trenutniY);
-                }
-                case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> {
+                    break;
+                case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_D:
                     if (!jeKonecIgre && !jaPavza)
                         tryMove(trenutniLik, trenutniX + 1, trenutniY);
-                }
-                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> {
+                    break;
+                case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_S:
                     if (!jeKonecIgre && !jaPavza)
                         tryMove(trenutniLik.obrniDesno(), trenutniX, trenutniY);
-                }
-                case KeyEvent.VK_UP, KeyEvent.VK_W -> {
+                    break;
+                case KeyEvent.VK_UP:
+                case KeyEvent.VK_W:
                     if (!jeKonecIgre && !jaPavza)
                         tryMove(trenutniLik.obrniLevo(), trenutniX, trenutniY);
-                }
-                case KeyEvent.VK_SPACE -> {
+                    break;
+                case KeyEvent.VK_SPACE:
                     if (!jeKonecIgre && !jaPavza)
                         dropDown();
                     else
                         konecIgre();
-                }
-                case KeyEvent.VK_Y, KeyEvent.VK_ENTER -> {
+                    break;
+                case KeyEvent.VK_Y:
+                case KeyEvent.VK_ENTER:
                     if (!jeKonecIgre && !jaPavza)
                         shraniLik();
-                }
-                case KeyEvent.VK_BACK_SPACE -> konecIgre();
+                    break;
+                case KeyEvent.VK_BACK_SPACE:
+                    konecIgre();
+                    break;
             }
         }
     }

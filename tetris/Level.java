@@ -14,39 +14,68 @@ public class Level {
     }
 
     public static int getDelay(int level,int baseDelay){
-        return switch (level) {
-            case 0 -> (int) (delays[0] * baseDelay);
-            case 1 -> (int) (delays[1] * baseDelay);
-            case 2 -> (int) (delays[2] * baseDelay);
-            case 3 -> (int) (delays[3] * baseDelay);
-            case 4 -> (int) (delays[4] * baseDelay);
-            case 5 -> (int) (delays[5] * baseDelay);
-            case 6 -> (int) (delays[6] * baseDelay);
-            case 7 -> (int) (delays[7] * baseDelay);
-            case 8 -> (int) (delays[8] * baseDelay);
-            case 9 -> (int) (delays[9] * baseDelay);
-            case 10 -> (int) (delays[10] * baseDelay);
-            case 11 -> (int) (delays[10] * baseDelay);
-            case 12 -> (int) (delays[10] * baseDelay);
-            case 13 -> (int) (delays[11] * baseDelay);
-            case 14 -> (int) (delays[11] * baseDelay);
-            case 15 -> (int) (delays[11] * baseDelay);
-            case 16 -> (int) (delays[12] * baseDelay);
-            case 17 -> (int) (delays[12] * baseDelay);
-            case 18 -> (int) (delays[12] * baseDelay);
-            case 19 -> (int) (delays[13] * baseDelay);
-            case 20 -> (int) (delays[13] * baseDelay);
-            case 21 -> (int) (delays[13] * baseDelay);
-            case 22 -> (int) (delays[13] * baseDelay);
-            case 23 -> (int) (delays[13] * baseDelay);
-            case 24 -> (int) (delays[13] * baseDelay);
-            case 25 -> (int) (delays[13] * baseDelay);
-            case 26 -> (int) (delays[13] * baseDelay);
-            case 27 -> (int) (delays[13] * baseDelay);
-            case 28 -> (int) (delays[13] * baseDelay);
-            case 29 -> (int) (delays[14] * baseDelay);
-            default -> (int) (delays[0] * baseDelay);
-        };
+        switch (level) {
+            case 1:
+                return (int) (delays[1] * baseDelay);
+            case 2:
+                return (int) (delays[2] * baseDelay);
+            case 3:
+                return (int) (delays[3] * baseDelay);
+            case 4:
+                return (int) (delays[4] * baseDelay);
+            case 5:
+                return (int) (delays[5] * baseDelay);
+            case 6:
+                return (int) (delays[6] * baseDelay);
+            case 7:
+                return (int) (delays[7] * baseDelay);
+            case 8:
+                return (int) (delays[8] * baseDelay);
+            case 9:
+                return (int) (delays[9] * baseDelay);
+            case 10:
+                return (int) (delays[10] * baseDelay);
+            case 11:
+                return (int) (delays[10] * baseDelay);
+            case 12:
+                return (int) (delays[10] * baseDelay);
+            case 13:
+                return (int) (delays[11] * baseDelay);
+            case 14:
+                return (int) (delays[11] * baseDelay);
+            case 15:
+                return (int) (delays[11] * baseDelay);
+            case 16:
+                return (int) (delays[12] * baseDelay);
+            case 17:
+                return (int) (delays[12] * baseDelay);
+            case 18:
+                return (int) (delays[12] * baseDelay);
+            case 19:
+                return (int) (delays[13] * baseDelay);
+            case 20:
+                return (int) (delays[13] * baseDelay);
+            case 21:
+                return (int) (delays[13] * baseDelay);
+            case 22:
+                return (int) (delays[13] * baseDelay);
+            case 23:
+                return (int) (delays[13] * baseDelay);
+            case 24:
+                return (int) (delays[13] * baseDelay);
+            case 25:
+                return (int) (delays[13] * baseDelay);
+            case 26:
+                return (int) (delays[13] * baseDelay);
+            case 27:
+                return (int) (delays[13] * baseDelay);
+            case 28:
+                return (int) (delays[13] * baseDelay);
+            case 29:
+                return (int) (delays[14] * baseDelay);
+            default:
+                return (int) (delays[0] * baseDelay);
+        }
     }
     public static int getLinesToLevel(int level){
         int lines=0;
