@@ -44,7 +44,7 @@ public class Deska extends JPanel {
         catch(IOException e){
             rezultati=new RezultatIgre[0];
         }
-        display.updateScores(rezultati);
+        display.osvežiRezultate(rezultati);
         barve= Barve.PRIVZETE_BARVE;
     }
 
@@ -82,12 +82,12 @@ public class Deska extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        rišiLike(g);
+        riši(g);
     }
     public void nastaviBarve(Color[] barve){
         this.barve=barve;
     }
-    private void rišiLike(Graphics g) {
+    private void riši(Graphics g) {
         g.setColor(new Color(225,225,225));
         for(int i=0;i<getWidth();i+=getWidth()/ŠIRINA_DESKE){
             g.drawLine(i, 0, i, getHeight());
@@ -131,7 +131,7 @@ public class Deska extends JPanel {
                 if(JOptionPane.showConfirmDialog(stranskiPrikaz, "Ali želiš shraniti rezultat igre?", "", JOptionPane.YES_NO_OPTION)==0){
                     rezultati=io.dodajZapis(rezultati,new RezultatIgre(točke,JOptionPane.showInputDialog(stranskiPrikaz,"Vnesi ime:")));
                     try{io.piši(rezultati);}catch(IOException ignored){}
-                    stranskiPrikaz.updateScores(rezultati);
+                    stranskiPrikaz.osvežiRezultate(rezultati);
                 }
             }
         }
@@ -329,7 +329,7 @@ public class Deska extends JPanel {
     }
 
     private void osvežiPrikaz(){
-        stranskiPrikaz.update(shranjenLik,naslednjiLik,"Točke: "+ točke,nivoIgre,štOdstranjenihVrstic);
+        stranskiPrikaz.osveži(shranjenLik,naslednjiLik,"Točke: "+ točke,nivoIgre,štOdstranjenihVrstic);
         stranskiPrikaz.repaint();
         repaint();
     }

@@ -17,7 +17,7 @@ public class Igra extends JFrame {
         display.setPreferredSize(new Dimension(150,getHeight()));
         add(deska,BorderLayout.CENTER);
         deska.nastaviBarve(colors);
-        display.setColors(colors);
+        display.nastaviBarve(colors);
 
         setTitle("Tetris");
         setSize(550, 800);
