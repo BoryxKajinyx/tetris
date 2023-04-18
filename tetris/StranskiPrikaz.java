@@ -28,7 +28,7 @@ public class StranskiPrikaz extends JPanel{
         sp.setViewportView(jta);
         sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         this.add(sp,BorderLayout.SOUTH);
-        colors= Barve.defaultC;
+        colors= Barve.PRIVZETE_BARVE;
     }
     private void polni(RezultatIgre[] scores){
         jta.setText("");

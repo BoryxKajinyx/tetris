@@ -35,7 +35,7 @@ public class Deska extends JPanel {
 
     public Deska(StranskiPrikaz display) {
         setFocusable(true);
-        addKeyListener(new TAdapter());
+        addKeyListener(new Tipke());
         this.stranskiPrikaz=display;
         try{
             rezultati=io.beriStart();
@@ -45,7 +45,7 @@ public class Deska extends JPanel {
             rezultati=new RezultatIgre[0];
         }
         display.updateScores(rezultati);
-        barve= Barve.defaultC;
+        barve= Barve.PRIVZETE_BARVE;
     }
 
     private int širinaKvadrata() {
@@ -56,38 +56,38 @@ public class Deska extends JPanel {
         return (int) getSize().getHeight() / VIŠINA_DESKE;
     }
 
-    private Liki shapeAt(int x, int y) {
+    private Liki likNaKoordinatah(int x, int y) {
         return deska[(y * ŠIRINA_DESKE) + x];
     }
 
-    void start() {
+    void začniIgro() {
         trenutniLik = new Lik();
         shranjenLik=new Lik();
         naslednjiLik=new Lik();
         naslednjiLik.setRandomLik();
         deska = new Liki[ŠIRINA_DESKE * VIŠINA_DESKE];
-        clearBoard();
-        newPiece();
-        časovnik = new Timer(NivoIgre.getDelay(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA), new GameCycle());
-        Timer infoTimer = new Timer(1, new GraphicsCycle());
+        počistiDesko();
+        novLik();
+        časovnik = new Timer(NivoIgre.getDelay(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA), new ZankaIgre());
+        Timer infoTimer = new Timer(1, new ZankaPrikaza());
         infoTimer.start();
         časovnik.start();
         potrdiShranjevanjeRezultata=false;
     }
 
-    private void pause() {
+    private void pavza() {
         jaPavza=!jaPavza;
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        doDrawing(g);
+        rišiLike(g);
     }
-    public void setBarve(Color[] colors){
-        this.barve=colors;
+    public void nastaviBarve(Color[] barve){
+        this.barve=barve;
     }
-    private void doDrawing(Graphics g) {
+    private void rišiLike(Graphics g) {
         g.setColor(new Color(225,225,225));
         for(int i=0;i<getWidth();i+=getWidth()/ŠIRINA_DESKE){
             g.drawLine(i, 0, i, getHeight());
@@ -98,9 +98,9 @@ public class Deska extends JPanel {
         int boardTop = (int) size.getHeight() - VIŠINA_DESKE * višinaKvadrata();
         for (int i = 0; i < VIŠINA_DESKE; i++) {
             for (int j = 0; j < ŠIRINA_DESKE; j++) {
-                Liki shape = shapeAt(j, VIŠINA_DESKE - i - 1);
+                Liki shape = likNaKoordinatah(j, VIŠINA_DESKE - i - 1);
                 if (shape != Liki.NoShape) {
-                    drawSquare(g, j * širinaKvadrata(),
+                    rišiDelLika(g, j * širinaKvadrata(),
                     boardTop + i * višinaKvadrata(), shape);
                 }
             }
@@ -110,7 +110,7 @@ public class Deska extends JPanel {
             for (int i = 0; i < 4; i++) {
                 int x = trenutniX + trenutniLik.x(i);
                 int y = trenutniY - trenutniLik.y(i);
-                drawSquare(g, x * širinaKvadrata(),
+                rišiDelLika(g, x * širinaKvadrata(),
                         boardTop + (VIŠINA_DESKE - y - 1) * višinaKvadrata(),
                         trenutniLik.getLik());
             }
@@ -145,97 +145,97 @@ public class Deska extends JPanel {
         }
     }
 
-    private void dropDown() {
-        int newY = trenutniY;
+    private void spustiLikNaDnoDeske() {
+        int novY = trenutniY;
         int števec=0;
-        while (newY > 0) {
-            if (!tryMove(trenutniLik, trenutniX, newY - 1)) {
+        while (novY > 0) {
+            if (!poskusiPremik(trenutniLik, trenutniX, novY - 1)) {
                 break;
             }
             števec++;
-            newY--;
+            novY--;
         }
-        pieceDropped();
+        likNaDnu();
         točke+=2*števec;
-        doGraphicsCycle();
+        osvežiPrikaz();
     }
 
-    private void oneLineDown() {
-        if (!tryMove(trenutniLik, trenutniX, trenutniY - 1)) {
-            pieceDropped();
+    private void enoVrsticoDol() {
+        if (!poskusiPremik(trenutniLik, trenutniX, trenutniY - 1)) {
+            likNaDnu();
         }
     }
 
-    private void clearBoard() {
+    private void počistiDesko() {
         for (int i = 0; i < VIŠINA_DESKE * ŠIRINA_DESKE; i++) {
             deska[i] = Liki.NoShape;
         }
     }
 
-    private void pieceDropped() {
+    private void likNaDnu() {
         for (int i = 0; i < 4; i++) {
             int x = trenutniX + trenutniLik.x(i);
             int y = trenutniY - trenutniLik.y(i);
             deska[(y * ŠIRINA_DESKE) + x] = trenutniLik.getLik();
         }
 
-        removeFullLines();
+        odstraniPolneVrstice();
         if (!jeKonecPada) {
-            newPiece();
+            novLik();
         }
     }
 
-    private void newPiece() {
+    private void novLik() {
         trenutniLik.setLik(naslednjiLik.getLik());
         naslednjiLik.setRandomLik();
         trenutniX = ŠIRINA_DESKE / 2 + 1;
         trenutniY = VIŠINA_DESKE - 1 + trenutniLik.minY();
-        if (!tryMove(trenutniLik, trenutniX, trenutniY)) {
+        if (!poskusiPremik(trenutniLik, trenutniX, trenutniY)) {
             konecIgre();
         }
     }
 
-    private boolean tryMove(Lik newPiece, int newX, int newY) {
+    private boolean poskusiPremik(Lik novLik, int novX, int novY) {
         for (int i = 0; i < 4; i++) {
-            int x = newX + newPiece.x(i);
-            int y = newY - newPiece.y(i);
+            int x = novX + novLik.x(i);
+            int y = novY - novLik.y(i);
             if (x < 0 || x >= ŠIRINA_DESKE || y < 0 || y >= VIŠINA_DESKE) {
                 return false;
             }
-            if (shapeAt(x, y) != Liki.NoShape) {
+            if (likNaKoordinatah(x, y) != Liki.NoShape) {
                 return false;
             }
         }
 
-        trenutniLik = newPiece;
-        trenutniX = newX;
-        trenutniY = newY;
+        trenutniLik = novLik;
+        trenutniX = novX;
+        trenutniY = novY;
         repaint();
         return true;
     }
 
-    private void removeFullLines() {
-        int numFullLines = 0;
+    private void odstraniPolneVrstice() {
+        int številoPolnihVrstic = 0;
         for (int i = VIŠINA_DESKE - 1; i >= 0; i--) {
-            boolean lineIsFull = true;
+            boolean polnaVrstica = true;
             for (int j = 0; j < ŠIRINA_DESKE; j++) {
-                if (shapeAt(j, i) == Liki.NoShape) {
-                    lineIsFull = false;
+                if (likNaKoordinatah(j, i) == Liki.NoShape) {
+                    polnaVrstica = false;
                     break;
                 }
             }
-            if (lineIsFull) {
-                numFullLines++;
+            if (polnaVrstica) {
+                številoPolnihVrstic++;
                 for (int k = i; k < VIŠINA_DESKE - 1; k++) {
                     for (int j = 0; j < ŠIRINA_DESKE; j++) {
-                        deska[(k * ŠIRINA_DESKE) + j] = shapeAt(j, k + 1);
+                        deska[(k * ŠIRINA_DESKE) + j] = likNaKoordinatah(j, k + 1);
                     }
                 }
             }
         }
-        if (numFullLines > 0) {
-            štOdstranjenihVrstic+=numFullLines;
-            switch (numFullLines) {
+        if (številoPolnihVrstic > 0) {
+            štOdstranjenihVrstic+=številoPolnihVrstic;
+            switch (številoPolnihVrstic) {
                 case 1:
                     točke += 100;
                     if (nivoIgre > 0)
@@ -263,22 +263,21 @@ public class Deska extends JPanel {
         }
     }
 
-    private void drawSquare(Graphics g, int x, int y, Liki shape) {
-        var color = barve[shape.ordinal()];
-        g.setColor(color);
+    private void rišiDelLika(Graphics g, int x, int y, Liki lik) {
+        var barva = barve[lik.ordinal()];
+        g.setColor(barva);
         g.fillRect(x + 1, y + 1, širinaKvadrata() -1, višinaKvadrata() -1 );
-        g.setColor(color.darker());
+        g.setColor(barva.darker());
         g.drawLine(x, y + višinaKvadrata() - 1, x, y);
         g.drawLine(x, y, x + širinaKvadrata() - 1, y);
-        // g.setColor(color.darker());
         g.drawLine(x + 1, y + višinaKvadrata() - 1,
                  x + širinaKvadrata() - 1, y + višinaKvadrata() - 1);
         g.drawLine(x + širinaKvadrata() - 1, y + višinaKvadrata() - 1,
                  x + širinaKvadrata() - 1, y + 1);
     }
 
-    private void update() {
-        updateDelay();
+    private void osveži() {
+        osvežiZamik();
         if (jaPavza) {
             return;
         }
@@ -287,25 +286,25 @@ public class Deska extends JPanel {
         }
         if (jeKonecPada) {
             jeKonecPada = false;
-            newPiece();
+            novLik();
         } else {
-            oneLineDown();
+            enoVrsticoDol();
         }
     }
 
-    private void updateDelay(){
+    private void osvežiZamik(){
         časovnik.stop();
         časovnik.setDelay(NivoIgre.getDelay(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA));
         časovnik.start();
     }
 
     private void shraniLik(){
-        Lik temp=shranjenLik;
+        Lik začasenLik=shranjenLik;
         shranjenLik=naslednjiLik;
-        if(temp.getLik().equals(Liki.NoShape)){
-            temp.setRandomLik();
+        if(začasenLik.getLik().equals(Liki.NoShape)){
+            začasenLik.setRandomLik();
         }
-        naslednjiLik=temp;
+        naslednjiLik=začasenLik;
     }
 
     private void konecIgre(){
@@ -317,39 +316,39 @@ public class Deska extends JPanel {
             jeKonecIgre=false;
             potrdiShranjevanjeRezultata=false;
             naslednjiLik.setRandomLik();
-            clearBoard();
-            newPiece();
+            počistiDesko();
+            novLik();
             shranjenLik.setLik(Liki.NoShape);
             časovnik.start();
             točke=0;
         }
     }
 
-    private void doGameCycle(){
-        update();
+    private void narediZankoIgre(){
+        osveži();
     }
 
-    private void doGraphicsCycle(){
+    private void osvežiPrikaz(){
         stranskiPrikaz.update(shranjenLik,naslednjiLik,"Točke: "+ točke,nivoIgre,štOdstranjenihVrstic);
         stranskiPrikaz.repaint();
         repaint();
     }
 
-    private class GameCycle implements ActionListener {
+    private class ZankaIgre implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            doGameCycle();
+            narediZankoIgre();
         }
     }
 
-    private class GraphicsCycle implements ActionListener {
+    private class ZankaPrikaza implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            doGraphicsCycle();
+            osvežiPrikaz();
         }
     }
     
-    class TAdapter extends KeyAdapter {
+    class Tipke extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             int keycode = e.getKeyCode();
@@ -358,31 +357,31 @@ public class Deska extends JPanel {
                 case KeyEvent.VK_P:
                 case KeyEvent.VK_ESCAPE:
                     if (!jeKonecIgre)
-                        pause();
+                        pavza();
                     break;
                 case KeyEvent.VK_LEFT:
                 case KeyEvent.VK_A:
                     if (!jeKonecIgre && !jaPavza)
-                        tryMove(trenutniLik, trenutniX - 1, trenutniY);
+                        poskusiPremik(trenutniLik, trenutniX - 1, trenutniY);
                     break;
                 case KeyEvent.VK_RIGHT:
                 case KeyEvent.VK_D:
                     if (!jeKonecIgre && !jaPavza)
-                        tryMove(trenutniLik, trenutniX + 1, trenutniY);
+                        poskusiPremik(trenutniLik, trenutniX + 1, trenutniY);
                     break;
                 case KeyEvent.VK_DOWN:
                 case KeyEvent.VK_S:
                     if (!jeKonecIgre && !jaPavza)
-                        tryMove(trenutniLik.obrniDesno(), trenutniX, trenutniY);
+                        poskusiPremik(trenutniLik.obrniDesno(), trenutniX, trenutniY);
                     break;
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_W:
                     if (!jeKonecIgre && !jaPavza)
-                        tryMove(trenutniLik.obrniLevo(), trenutniX, trenutniY);
+                        poskusiPremik(trenutniLik.obrniLevo(), trenutniX, trenutniY);
                     break;
                 case KeyEvent.VK_SPACE:
                     if (!jeKonecIgre && !jaPavza)
-                        dropDown();
+                        spustiLikNaDnoDeske();
                     else
                         konecIgre();
                     break;

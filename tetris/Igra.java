@@ -16,7 +16,7 @@ public class Igra extends JFrame {
         add(display,BorderLayout.EAST);
         display.setPreferredSize(new Dimension(150,getHeight()));
         add(deska,BorderLayout.CENTER);
-        deska.setBarve(colors);
+        deska.nastaviBarve(colors);
         display.setColors(colors);
 
         setTitle("Tetris");
@@ -24,7 +24,7 @@ public class Igra extends JFrame {
         //setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        deska.start();
+        deska.začniIgro();
     }
 
     public static void game(Color[] barve) {

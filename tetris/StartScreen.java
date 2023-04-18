@@ -12,7 +12,7 @@ public class StartScreen extends javax.swing.JPanel {
     private boolean focusOnColorSliders;
     public StartScreen() {
         initComponents();
-        colors= Barve.defaultC;
+        colors= Barve.PRIVZETE_BARVE;
         customC=new Color[8];
         for(int i=0;i<customC.length;i++){
             customC[i]=new Color(0,0,0);
@@ -168,10 +168,10 @@ public class StartScreen extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         switch (jComboBox1.getSelectedIndex()) {
             case 0:
-                selectedC = Barve.defaultC;
+                selectedC = Barve.PRIVZETE_BARVE;
                 break;
             case 1:
-                selectedC = Barve.TetrisOriginal;
+                selectedC = Barve.TETRIS_ORIGINALNE_BARVE;
                 break;
             default:
                 selectedC = customC;
@@ -183,13 +183,13 @@ public class StartScreen extends javax.swing.JPanel {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {
         switch (jComboBox1.getSelectedIndex()) {
             case 0:
-                colors = Barve.defaultC;
+                colors = Barve.PRIVZETE_BARVE;
                 jSlider1.setEnabled(false);
                 jSlider2.setEnabled(false);
                 jSlider3.setEnabled(false);
                 break;
             case 1:
-                colors = Barve.TetrisOriginal;
+                colors = Barve.TETRIS_ORIGINALNE_BARVE;
                 jSlider1.setEnabled(false);
                 jSlider2.setEnabled(false);
                 jSlider3.setEnabled(false);
