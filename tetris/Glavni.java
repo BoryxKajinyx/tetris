@@ -3,14 +3,14 @@ package tetris;
 import javax.swing.*;
 import java.awt.*;
 
-public class Main extends JFrame {
+public class Glavni extends JFrame {
 
     private StartScreen panel1;
-    public Main(){
+    public Glavni(){
         initComponents();
     }
 
-    public static Main start;
+    public static Glavni start;
 
     private void initComponents() {
 
@@ -39,14 +39,14 @@ public class Main extends JFrame {
     private void panel1PropertyChange(java.beans.PropertyChangeEvent evt) {
         Color[] c=panel1.getSelectedColor();
         if(c!=null&&panel1.getName().equalsIgnoreCase("KonecIzbire")){
-            Tetris.game(c);
+            Igra.game(c);
             this.setVisible(false);
             panel1.setName("Igra");
         }
     }
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-            start= new Main();
+            start= new Glavni();
             start.setVisible(true);
         });
     }

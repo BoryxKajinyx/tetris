@@ -2,7 +2,7 @@ package tetris;
 
 import java.awt.*;
 
-public final class Colors {
+public final class Barve {
     public static final Color[] defaultC={
             new Color(0, 0, 0),
             new Color(204, 102, 102),

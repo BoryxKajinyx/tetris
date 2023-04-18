@@ -29,11 +29,11 @@ public class Deska extends JPanel {
     private Lik naslednjiLik;
     private Lik shranjenLik;
     private Liki[] deska;
-    private Score[] rezultati;
-    private InfoDisplay stranskiPrikaz;
+    private RezultatIgre[] rezultati;
+    private final StranskiPrikaz stranskiPrikaz;
     private Color[] barve;
 
-    public Deska(InfoDisplay display) {
+    public Deska(StranskiPrikaz display) {
         setFocusable(true);
         addKeyListener(new TAdapter());
         this.stranskiPrikaz=display;
@@ -42,10 +42,10 @@ public class Deska extends JPanel {
             io.piši(rezultati);
         }
         catch(IOException e){
-            rezultati=new Score[0];
+            rezultati=new RezultatIgre[0];
         }
         display.updateScores(rezultati);
-        barve=Colors.defaultC;
+        barve= Barve.defaultC;
     }
 
     private int širinaKvadrata() {
@@ -68,7 +68,7 @@ public class Deska extends JPanel {
         deska = new Liki[ŠIRINA_DESKE * VIŠINA_DESKE];
         clearBoard();
         newPiece();
-        časovnik = new Timer(Level.getDelay(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA), new GameCycle());
+        časovnik = new Timer(NivoIgre.getDelay(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA), new GameCycle());
         Timer infoTimer = new Timer(1, new GraphicsCycle());
         infoTimer.start();
         časovnik.start();
@@ -129,7 +129,7 @@ public class Deska extends JPanel {
             if(!potrdiShranjevanjeRezultata){
                 potrdiShranjevanjeRezultata=true;
                 if(JOptionPane.showConfirmDialog(stranskiPrikaz, "Ali želiš shraniti rezultat igre?", "", JOptionPane.YES_NO_OPTION)==0){
-                    rezultati=io.dodajZapis(rezultati,new Score(točke,JOptionPane.showInputDialog(stranskiPrikaz,"Vnesi ime:")));
+                    rezultati=io.dodajZapis(rezultati,new RezultatIgre(točke,JOptionPane.showInputDialog(stranskiPrikaz,"Vnesi ime:")));
                     try{io.piši(rezultati);}catch(IOException ignored){}
                     stranskiPrikaz.updateScores(rezultati);
                 }
@@ -259,7 +259,7 @@ public class Deska extends JPanel {
             }
             jeKonecPada = true;
             trenutniLik.setLik(Liki.NoShape);
-            nivoIgre=Level.checkLevel(štOdstranjenihVrstic);
+            nivoIgre= NivoIgre.checkLevel(štOdstranjenihVrstic);
         }
     }
 
@@ -295,7 +295,7 @@ public class Deska extends JPanel {
 
     private void updateDelay(){
         časovnik.stop();
-        časovnik.setDelay(Level.getDelay(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA));
+        časovnik.setDelay(NivoIgre.getDelay(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA));
         časovnik.start();
     }
 
