@@ -38,7 +38,7 @@ public class Deska extends JPanel {
         addKeyListener(new Tipke());
         this.stranskiPrikaz=display;
         try{
-            rezultati=io.beriStart();
+            rezultati=io.beriRezultate();
             io.piši(rezultati);
         }
         catch(IOException e){
@@ -68,7 +68,7 @@ public class Deska extends JPanel {
         deska = new Liki[ŠIRINA_DESKE * VIŠINA_DESKE];
         počistiDesko();
         novLik();
-        časovnik = new Timer(NivoIgre.getDelay(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA), new ZankaIgre());
+        časovnik = new Timer(NivoIgre.pridobiZamik(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA), new ZankaIgre());
         Timer infoTimer = new Timer(1, new ZankaPrikaza());
         infoTimer.start();
         časovnik.start();
@@ -259,7 +259,7 @@ public class Deska extends JPanel {
             }
             jeKonecPada = true;
             trenutniLik.setLik(Liki.NoShape);
-            nivoIgre= NivoIgre.checkLevel(štOdstranjenihVrstic);
+            nivoIgre= NivoIgre.preveriNivo(štOdstranjenihVrstic);
         }
     }
 
@@ -294,7 +294,7 @@ public class Deska extends JPanel {
 
     private void osvežiZamik(){
         časovnik.stop();
-        časovnik.setDelay(NivoIgre.getDelay(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA));
+        časovnik.setDelay(NivoIgre.pridobiZamik(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA));
         časovnik.start();
     }
 

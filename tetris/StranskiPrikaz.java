@@ -119,7 +119,7 @@ public class StranskiPrikaz extends JPanel{
             g.drawString("Level: "+ nivo, 10, starY+višinaKvadrata*6);
             g.setFont(new Font("default", Font.PLAIN, 12));
             g.drawString("odstranjene vrstice: "+štVrstic, 10, starY+višinaKvadrata*7);
-            g.drawString("Št vrstic do levla: "+(NivoIgre.getLinesToLevel(nivo)-štVrstic), 10, starY+višinaKvadrata*8);
+            g.drawString("Št vrstic do levla: "+(NivoIgre.pretvoriNivoVVrstice(nivo)-štVrstic), 10, starY+višinaKvadrata*8);
             g.drawString(vrsticaStanja, 5, getHeight()/16);
         }catch(NullPointerException ignored){}
     }
