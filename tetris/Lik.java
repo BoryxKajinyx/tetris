@@ -3,8 +3,8 @@ package tetris;
 public class Lik {
 
     public enum Liki {
-        NoShape, ZShape, SShape, LineShape,
-        TShape, SquareShape, LShape, MirroredLShape
+        PrazenLik, Z_Oblika, S_Oblika, Črta,
+        T_oblika, Kvadrat, L_Oblika, Obrnjen_L
     }
 
     private Liki trenutniLik;
@@ -12,7 +12,7 @@ public class Lik {
 
     public Lik() {
         koordinati = new int[4][2];
-        setLik(Liki.NoShape);
+        setLik(Liki.PrazenLik);
     }
 
     void setLik(Liki lik) {
@@ -34,11 +34,11 @@ public class Lik {
         trenutniLik = lik;
     }
 
-    private void setX(int index, int x) {
+    private void nastaviX(int index, int x) {
         koordinati[index][0] = x;
     }
 
-    private void setY(int index, int y) {
+    private void nastaviY(int index, int y) {
         koordinati[index][1] = y;
     }
 
@@ -50,19 +50,17 @@ public class Lik {
         return koordinati[index][1];
     }
 
-    Liki getLik() {
+    Liki dobiLik() {
         return trenutniLik;
     }
 
-    void setRandomLik() {
+    void nastaviNaključenLik() {
         int x = (int)(Math.random()*7)+1;
 
         Liki[] values = Liki.values();
         setLik(values[x]);
     }
-
-
-    int minY() {
+    int najnižjiY() {
         int m = koordinati[0][1];
 
         for (int i = 0; i < 4; i++) {
@@ -73,34 +71,34 @@ public class Lik {
     }
 
     Lik obrniLevo() {
-        if (trenutniLik == Liki.SquareShape) {
+        if (trenutniLik == Liki.Kvadrat) {
             return this;
         }
 
-        var result = new Lik();
-        result.trenutniLik = trenutniLik;
+        var rezultat = new Lik();
+        rezultat.trenutniLik = trenutniLik;
 
         for (int i = 0; i < 4; i++) {
-            result.setX(i, y(i));
-            result.setY(i, -x(i));
+            rezultat.nastaviX(i, y(i));
+            rezultat.nastaviY(i, -x(i));
         }
 
-        return result;
+        return rezultat;
     }
 
     Lik obrniDesno() {
-        if (trenutniLik == Liki.SquareShape) {
+        if (trenutniLik == Liki.Kvadrat) {
             return this;
         }
 
-        var result = new Lik();
-        result.trenutniLik = trenutniLik;
+        var rezultat = new Lik();
+        rezultat.trenutniLik = trenutniLik;
 
         for (int i = 0; i < 4; i++) {
-            result.setX(i, -y(i));
-            result.setY(i, x(i));
+            rezultat.nastaviX(i, -y(i));
+            rezultat.nastaviY(i, x(i));
         }
 
-        return result;
+        return rezultat;
     }
 }

@@ -5,49 +5,44 @@ import java.awt.*;
 
 public class Glavni extends JFrame {
 
-    private StartScreen panel1;
+    private final tetris.začetniMeni začetniMeni;
     public Glavni(){
-        initComponents();
-    }
-
-    public static Glavni start;
-
-    private void initComponents() {
-
-        panel1 = new tetris.StartScreen();
+        začetniMeni = new začetniMeni();
         this.setTitle("Izbira barve");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        panel1.addPropertyChangeListener(this::panel1PropertyChange);
+        začetniMeni.addPropertyChangeListener(this::začetniMeniSpremembaLastnosti);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(začetniMeni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(začetniMeni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }
 
-    private void panel1PropertyChange(java.beans.PropertyChangeEvent evt) {
-        Color[] c=panel1.getSelectedColor();
-        if(c!=null&&panel1.getName().equalsIgnoreCase("KonecIzbire")){
-            Igra.game(c);
+    public static Glavni okvir;
+    private void začetniMeniSpremembaLastnosti(java.beans.PropertyChangeEvent evt) {
+        Color[] c= začetniMeni.dobiIzbranoBarvo();
+        if(c!=null&& začetniMeni.getName().equalsIgnoreCase("KonecIzbire")){
             this.setVisible(false);
-            panel1.setName("Igra");
+            začetniMeni.setName("Igra");
+            začetniMeni.setEnabled(false);
+            Igra.igra(c);
         }
     }
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-            start= new Glavni();
-            start.setVisible(true);
+            okvir = new Glavni();
+            okvir.setVisible(true);
         });
     }
 }

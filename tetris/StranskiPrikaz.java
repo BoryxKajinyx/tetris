@@ -65,11 +65,11 @@ public class StranskiPrikaz extends JPanel{
         this.štVrstic=štVrstic;
         if(shranjenLik==null) {
             shranjenLik=new Lik();
-            shranjenLik.setLik(Liki.NoShape);
+            shranjenLik.setLik(Liki.PrazenLik);
         }
         if(naslednjiLik==null) {
             naslednjiLik=new Lik();
-            naslednjiLik.setLik(Liki.NoShape);
+            naslednjiLik.setLik(Liki.PrazenLik);
         }
         if(vrsticaStanja ==null) {
             vrsticaStanja ="";
@@ -92,21 +92,21 @@ public class StranskiPrikaz extends JPanel{
             for (int i = 0; i < 4; i++) {
                 int x = 50 + naslednjiLik.x(i)*širinaKvadrata;
                 int y = novY+širinaKvadrata+širinaKvadrata/2 - naslednjiLik.y(i)*višinaKvadrata;
-                if(naslednjiLik.getLik().equals(Liki.LineShape)){
+                if(naslednjiLik.dobiLik().equals(Liki.Črta)){
                     y+=širinaKvadrata;
                 }
-                rišiDelLika(g, x, y, naslednjiLik.getLik());
+                rišiDelLika(g, x, y, naslednjiLik.dobiLik());
             }
             
             
             int starY=novY+višinaKvadrata*6;
-            if(!shranjenLik.getLik().equals(Liki.NoShape))
+            if(!shranjenLik.dobiLik().equals(Liki.PrazenLik))
                 for (int i = 0; i < 4; i++) {
                     int x = 50 + shranjenLik.x(i)*širinaKvadrata;
                     int y = starY+širinaKvadrata+širinaKvadrata/2 - shranjenLik.y(i)*višinaKvadrata;
-                    if(shranjenLik.getLik().equals(Liki.LineShape))
+                    if(shranjenLik.dobiLik().equals(Liki.Črta))
                         y+=širinaKvadrata;
-                    rišiDelLika(g, x, y, shranjenLik.getLik());
+                    rišiDelLika(g, x, y, shranjenLik.dobiLik());
                 }
 
             g.setColor(Color.BLACK);

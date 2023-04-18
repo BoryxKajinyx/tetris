@@ -64,7 +64,7 @@ public class Deska extends JPanel {
         trenutniLik = new Lik();
         shranjenLik=new Lik();
         naslednjiLik=new Lik();
-        naslednjiLik.setRandomLik();
+        naslednjiLik.nastaviNaključenLik();
         deska = new Liki[ŠIRINA_DESKE * VIŠINA_DESKE];
         počistiDesko();
         novLik();
@@ -99,20 +99,20 @@ public class Deska extends JPanel {
         for (int i = 0; i < VIŠINA_DESKE; i++) {
             for (int j = 0; j < ŠIRINA_DESKE; j++) {
                 Liki shape = likNaKoordinatah(j, VIŠINA_DESKE - i - 1);
-                if (shape != Liki.NoShape) {
+                if (shape != Liki.PrazenLik) {
                     rišiDelLika(g, j * širinaKvadrata(),
                     boardTop + i * višinaKvadrata(), shape);
                 }
             }
         }
 
-        if (trenutniLik.getLik() != Liki.NoShape) {
+        if (trenutniLik.dobiLik() != Liki.PrazenLik) {
             for (int i = 0; i < 4; i++) {
                 int x = trenutniX + trenutniLik.x(i);
                 int y = trenutniY - trenutniLik.y(i);
                 rišiDelLika(g, x * širinaKvadrata(),
                         boardTop + (VIŠINA_DESKE - y - 1) * višinaKvadrata(),
-                        trenutniLik.getLik());
+                        trenutniLik.dobiLik());
             }
         }
         
@@ -168,7 +168,7 @@ public class Deska extends JPanel {
 
     private void počistiDesko() {
         for (int i = 0; i < VIŠINA_DESKE * ŠIRINA_DESKE; i++) {
-            deska[i] = Liki.NoShape;
+            deska[i] = Liki.PrazenLik;
         }
     }
 
@@ -176,7 +176,7 @@ public class Deska extends JPanel {
         for (int i = 0; i < 4; i++) {
             int x = trenutniX + trenutniLik.x(i);
             int y = trenutniY - trenutniLik.y(i);
-            deska[(y * ŠIRINA_DESKE) + x] = trenutniLik.getLik();
+            deska[(y * ŠIRINA_DESKE) + x] = trenutniLik.dobiLik();
         }
 
         odstraniPolneVrstice();
@@ -186,10 +186,10 @@ public class Deska extends JPanel {
     }
 
     private void novLik() {
-        trenutniLik.setLik(naslednjiLik.getLik());
-        naslednjiLik.setRandomLik();
+        trenutniLik.setLik(naslednjiLik.dobiLik());
+        naslednjiLik.nastaviNaključenLik();
         trenutniX = ŠIRINA_DESKE / 2 + 1;
-        trenutniY = VIŠINA_DESKE - 1 + trenutniLik.minY();
+        trenutniY = VIŠINA_DESKE - 1 + trenutniLik.najnižjiY();
         if (!poskusiPremik(trenutniLik, trenutniX, trenutniY)) {
             konecIgre();
         }
@@ -202,7 +202,7 @@ public class Deska extends JPanel {
             if (x < 0 || x >= ŠIRINA_DESKE || y < 0 || y >= VIŠINA_DESKE) {
                 return false;
             }
-            if (likNaKoordinatah(x, y) != Liki.NoShape) {
+            if (likNaKoordinatah(x, y) != Liki.PrazenLik) {
                 return false;
             }
         }
@@ -219,7 +219,7 @@ public class Deska extends JPanel {
         for (int i = VIŠINA_DESKE - 1; i >= 0; i--) {
             boolean polnaVrstica = true;
             for (int j = 0; j < ŠIRINA_DESKE; j++) {
-                if (likNaKoordinatah(j, i) == Liki.NoShape) {
+                if (likNaKoordinatah(j, i) == Liki.PrazenLik) {
                     polnaVrstica = false;
                     break;
                 }
@@ -258,7 +258,7 @@ public class Deska extends JPanel {
                     break;
             }
             jeKonecPada = true;
-            trenutniLik.setLik(Liki.NoShape);
+            trenutniLik.setLik(Liki.PrazenLik);
             nivoIgre= NivoIgre.preveriNivo(štOdstranjenihVrstic);
         }
     }
@@ -301,24 +301,24 @@ public class Deska extends JPanel {
     private void shraniLik(){
         Lik začasenLik=shranjenLik;
         shranjenLik=naslednjiLik;
-        if(začasenLik.getLik().equals(Liki.NoShape)){
-            začasenLik.setRandomLik();
+        if(začasenLik.dobiLik().equals(Liki.PrazenLik)){
+            začasenLik.nastaviNaključenLik();
         }
         naslednjiLik=začasenLik;
     }
 
     private void konecIgre(){
         if(!jeKonecIgre){
-            trenutniLik.setLik(Liki.NoShape);
+            trenutniLik.setLik(Liki.PrazenLik);
             jeKonecIgre=true;
             časovnik.stop();
         }else{
             jeKonecIgre=false;
             potrdiShranjevanjeRezultata=false;
-            naslednjiLik.setRandomLik();
+            naslednjiLik.nastaviNaključenLik();
             počistiDesko();
             novLik();
-            shranjenLik.setLik(Liki.NoShape);
+            shranjenLik.setLik(Liki.PrazenLik);
             časovnik.start();
             točke=0;
         }

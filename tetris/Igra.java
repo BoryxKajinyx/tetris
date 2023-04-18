@@ -5,19 +5,15 @@ import java.awt.*;
 
 public class Igra extends JFrame {
 
-    public Igra(Color[] colors) {
-        initUI(colors);
-    }
+    public Igra(Color[] barve) {
+        var stranskiPrikaz =new StranskiPrikaz();
+        var deska = new Deska(stranskiPrikaz);
 
-    private void initUI(Color[] colors) {
-        var display =new StranskiPrikaz();
-        var deska = new Deska(display);
-
-        add(display,BorderLayout.EAST);
-        display.setPreferredSize(new Dimension(150,getHeight()));
+        add(stranskiPrikaz,BorderLayout.EAST);
+        stranskiPrikaz.setPreferredSize(new Dimension(150,getHeight()));
         add(deska,BorderLayout.CENTER);
-        deska.nastaviBarve(colors);
-        display.nastaviBarve(colors);
+        deska.nastaviBarve(barve);
+        stranskiPrikaz.nastaviBarve(barve);
 
         setTitle("Tetris");
         setSize(550, 800);
@@ -26,11 +22,10 @@ public class Igra extends JFrame {
         setLocationRelativeTo(null);
         deska.začniIgro();
     }
-
-    public static void game(Color[] barve) {
+    public static void igra(Color[] barve) {
         EventQueue.invokeLater(() -> {
-            var game = new Igra(barve);
-            game.setVisible(true);
+            var igra = new Igra(barve);
+            igra.setVisible(true);
         });
     }
 }
