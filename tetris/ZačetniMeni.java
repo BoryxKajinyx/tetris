@@ -4,13 +4,13 @@ import tetris.Lik.Liki;
 
 import java.awt.*;
 
-public class začetniMeni extends javax.swing.JPanel {
+public class ZačetniMeni extends javax.swing.JPanel {
 
     private Color[] barve;
     private final Color[] poljubneBarve;
     private Color[] izbraneBarve;
     private boolean fokusNaDrsnikih;
-    public začetniMeni() {
+    public ZačetniMeni() {
         inicializirajKomponente();
         barve = Barve.PRIVZETE_BARVE;
         poljubneBarve =new Color[8];
@@ -39,7 +39,7 @@ public class začetniMeni extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(400, 500));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Privzete barve", "Originalne barve", "Poljubne barve" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Privzete barve", "Standardne barve", "Poljubne barve" }));
         jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
 
         jButton1.setText("Končaj izbiro");
@@ -171,7 +171,7 @@ public class začetniMeni extends javax.swing.JPanel {
                 izbraneBarve = Barve.PRIVZETE_BARVE;
                 break;
             case 1:
-                izbraneBarve = Barve.TETRIS_ORIGINALNE_BARVE;
+                izbraneBarve = Barve.TETRIS_STANDARDNE_BARVE;
                 break;
             default:
                 izbraneBarve = poljubneBarve;
@@ -189,7 +189,7 @@ public class začetniMeni extends javax.swing.JPanel {
                 drsnikRdeča.setEnabled(false);
                 break;
             case 1:
-                barve = Barve.TETRIS_ORIGINALNE_BARVE;
+                barve = Barve.TETRIS_STANDARDNE_BARVE;
                 drsnikModra.setEnabled(false);
                 drsnikZelena.setEnabled(false);
                 drsnikRdeča.setEnabled(false);

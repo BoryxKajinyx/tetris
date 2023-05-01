@@ -10,14 +10,14 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-public class Deska extends JPanel {
+public class IgralnaPlošča extends JPanel {
 
     private static final int ŠIRINA_DESKE = 10;
     private static final int VIŠINA_DESKE = 22;
     private static final int PRIVZETI_ZAMIK_ČASOVNIKA = 400;
     private Timer časovnik;
     private boolean jeKonecPada = false;
-    private boolean jaPavza = false;
+    private boolean jePavza = false;
     private boolean jeKonecIgre = false;
     private boolean potrdiShranjevanjeRezultata=false;
     private int štOdstranjenihVrstic=0;
@@ -33,7 +33,7 @@ public class Deska extends JPanel {
     private final StranskiPrikaz stranskiPrikaz;
     private Color[] barve;
 
-    public Deska(StranskiPrikaz display) {
+    public IgralnaPlošča(StranskiPrikaz display) {
         setFocusable(true);
         addKeyListener(new Tipke());
         this.stranskiPrikaz=display;
@@ -60,7 +60,7 @@ public class Deska extends JPanel {
         return deska[(y * ŠIRINA_DESKE) + x];
     }
 
-    void začniIgro() {
+    public void začniIgro() {
         trenutniLik = new Lik();
         shranjenLik=new Lik();
         naslednjiLik=new Lik();
@@ -69,14 +69,14 @@ public class Deska extends JPanel {
         počistiDesko();
         novLik();
         časovnik = new Timer(NivoIgre.pridobiZamik(nivoIgre,PRIVZETI_ZAMIK_ČASOVNIKA), new ZankaIgre());
-        Timer infoTimer = new Timer(1, new ZankaPrikaza());
-        infoTimer.start();
+        Timer časovnikZaStranskiPrikaz = new Timer(1, new ZankaPrikaza());
+        časovnikZaStranskiPrikaz.start();
         časovnik.start();
         potrdiShranjevanjeRezultata=false;
     }
 
     private void pavza() {
-        jaPavza=!jaPavza;
+        jePavza =!jePavza;
     }
 
     @Override
@@ -115,7 +115,7 @@ public class Deska extends JPanel {
                         trenutniLik.dobiLik());
             }
         }
-        
+
         if(jeKonecIgre){
             g.setColor(new Color(125,125,125,125));
             g.fillRect(0, getHeight()/3-50, getWidth(), 200);
@@ -135,13 +135,13 @@ public class Deska extends JPanel {
                 }
             }
         }
-        if(jaPavza){
+        if(jePavza){
             g.setColor(new Color(125,125,125,125));
             g.fillRect(0, getHeight()/3-50, getWidth(),getHeight()/2);
             g.setFont(new Font("default", Font.PLAIN, 40));
             g.setColor(Color.BLACK);
             g.drawString("Pavza", getWidth()/2-50, getHeight()/3);
-  
+
         }
     }
 
@@ -278,7 +278,7 @@ public class Deska extends JPanel {
 
     private void osveži() {
         osvežiZamik();
-        if (jaPavza) {
+        if (jePavza) {
             return;
         }
         if(jeKonecIgre){
@@ -324,9 +324,7 @@ public class Deska extends JPanel {
         }
     }
 
-    private void narediZankoIgre(){
-        osveži();
-    }
+
 
     private void osvežiPrikaz(){
         stranskiPrikaz.osveži(shranjenLik,naslednjiLik,"Točke: "+ točke,nivoIgre,štOdstranjenihVrstic);
@@ -337,7 +335,7 @@ public class Deska extends JPanel {
     private class ZankaIgre implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            narediZankoIgre();
+            osveži();
         }
     }
 
@@ -361,33 +359,33 @@ public class Deska extends JPanel {
                     break;
                 case KeyEvent.VK_LEFT:
                 case KeyEvent.VK_A:
-                    if (!jeKonecIgre && !jaPavza)
+                    if (!jeKonecIgre && !jePavza)
                         poskusiPremik(trenutniLik, trenutniX - 1, trenutniY);
                     break;
                 case KeyEvent.VK_RIGHT:
                 case KeyEvent.VK_D:
-                    if (!jeKonecIgre && !jaPavza)
+                    if (!jeKonecIgre && !jePavza)
                         poskusiPremik(trenutniLik, trenutniX + 1, trenutniY);
                     break;
                 case KeyEvent.VK_DOWN:
                 case KeyEvent.VK_S:
-                    if (!jeKonecIgre && !jaPavza)
+                    if (!jeKonecIgre && !jePavza)
                         poskusiPremik(trenutniLik.obrniDesno(), trenutniX, trenutniY);
                     break;
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_W:
-                    if (!jeKonecIgre && !jaPavza)
+                    if (!jeKonecIgre && !jePavza)
                         poskusiPremik(trenutniLik.obrniLevo(), trenutniX, trenutniY);
                     break;
                 case KeyEvent.VK_SPACE:
-                    if (!jeKonecIgre && !jaPavza)
+                    if (!jeKonecIgre && !jePavza)
                         spustiLikNaDnoDeske();
                     else
                         konecIgre();
                     break;
                 case KeyEvent.VK_Y:
                 case KeyEvent.VK_ENTER:
-                    if (!jeKonecIgre && !jaPavza)
+                    if (!jeKonecIgre && !jePavza)
                         shraniLik();
                     break;
                 case KeyEvent.VK_BACK_SPACE:

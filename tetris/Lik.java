@@ -74,15 +74,12 @@ public class Lik {
         if (trenutniLik == Liki.Kvadrat) {
             return this;
         }
-
         var rezultat = new Lik();
         rezultat.trenutniLik = trenutniLik;
-
         for (int i = 0; i < 4; i++) {
             rezultat.nastaviX(i, y(i));
             rezultat.nastaviY(i, -x(i));
         }
-
         return rezultat;
     }
 
@@ -90,15 +87,12 @@ public class Lik {
         if (trenutniLik == Liki.Kvadrat) {
             return this;
         }
-
         var rezultat = new Lik();
         rezultat.trenutniLik = trenutniLik;
-
         for (int i = 0; i < 4; i++) {
             rezultat.nastaviX(i, -y(i));
             rezultat.nastaviY(i, x(i));
         }
-
         return rezultat;
     }
 }

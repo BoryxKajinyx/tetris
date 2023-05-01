@@ -27,6 +27,8 @@ public class StranskiPrikaz extends JPanel{
         prikazRezultatovPrejšnjihIger.setColumns(9);
         sp.setViewportView(prikazRezultatovPrejšnjihIger);
         sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        prikazRezultatovPrejšnjihIger.setEditable(false);
+        prikazRezultatovPrejšnjihIger.setFocusable(false);
         this.add(sp,BorderLayout.SOUTH);
         barve = Barve.PRIVZETE_BARVE;
     }

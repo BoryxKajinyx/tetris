@@ -5,9 +5,9 @@ import java.awt.*;
 
 public class Glavni extends JFrame {
 
-    private final tetris.začetniMeni začetniMeni;
+    private final ZačetniMeni začetniMeni;
     public Glavni(){
-        začetniMeni = new začetniMeni();
+        začetniMeni = new ZačetniMeni();
         this.setTitle("Izbira barve");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);

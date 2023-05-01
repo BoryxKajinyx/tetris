@@ -7,7 +7,7 @@ public class Igra extends JFrame {
 
     public Igra(Color[] barve) {
         var stranskiPrikaz =new StranskiPrikaz();
-        var deska = new Deska(stranskiPrikaz);
+        var deska = new IgralnaPlošča(stranskiPrikaz);
 
         add(stranskiPrikaz,BorderLayout.EAST);
         stranskiPrikaz.setPreferredSize(new Dimension(150,getHeight()));
