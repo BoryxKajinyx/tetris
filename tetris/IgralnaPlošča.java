@@ -189,7 +189,7 @@ public class IgralnaPlošča extends JPanel {
     private void novLik() {
         trenutniLik.setLik(naslednjiLik.dobiLik());
         naslednjiLik.nastaviNaključenLik();
-        trenutniX = ŠIRINA_DESKE / 2 + 1;
+        trenutniX = ŠIRINA_DESKE / 2 ;
         trenutniY = VIŠINA_DESKE - 1 + trenutniLik.najnižjiY();
         if (!poskusiPremik(trenutniLik, trenutniX, trenutniY)) {
             konecIgre();
