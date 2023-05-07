@@ -1,13 +1,13 @@
 package tetris;
 import java.io.*;
-public class io {
+public class Datoteke {
 
     public static RezultatIgre[] beriRezultate(){
         RezultatIgre[] rezultati=null;
         try {
-            FileReader fr = new FileReader("tetris/Zapis.txt");
+            FileReader fr = new FileReader("Zapis.txt");
             rezultati = new RezultatIgre[prestejZapise(fr)];
-            fr = new FileReader("tetris/Zapis.txt");
+            fr = new FileReader("Zapis.txt");
             BufferedReader br = new BufferedReader(fr);
             for (int i = 0; i < rezultati.length; i++) {
                 rezultati[i] = new RezultatIgre();
@@ -57,7 +57,7 @@ public class io {
                 }
     }
     public static void piši(RezultatIgre[] rezultati)throws IOException{
-        PrintWriter pw=new PrintWriter("tetris/Zapis.txt");
+        PrintWriter pw=new PrintWriter("Zapis.txt");
         sortiraj(rezultati);
         for (RezultatIgre score : rezultati) {
             pw.println(score.name);

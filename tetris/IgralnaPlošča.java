@@ -38,8 +38,8 @@ public class IgralnaPlošča extends JPanel {
         addKeyListener(new Tipke());
         this.stranskiPrikaz=display;
         try{
-            rezultati=io.beriRezultate();
-            io.piši(rezultati);
+            rezultati= Datoteke.beriRezultate();
+            Datoteke.piši(rezultati);
         }
         catch(IOException e){
             rezultati=new RezultatIgre[0];
@@ -129,8 +129,9 @@ public class IgralnaPlošča extends JPanel {
             if(!potrdiShranjevanjeRezultata){
                 potrdiShranjevanjeRezultata=true;
                 if(JOptionPane.showConfirmDialog(stranskiPrikaz, "Ali želiš shraniti rezultat igre?", "", JOptionPane.YES_NO_OPTION)==0){
-                    rezultati=io.dodajZapis(rezultati,new RezultatIgre(točke,JOptionPane.showInputDialog(stranskiPrikaz,"Vnesi ime:")));
-                    try{io.piši(rezultati);}catch(IOException ignored){}
+                    rezultati= Datoteke.dodajZapis(rezultati,new RezultatIgre(točke,JOptionPane.showInputDialog(stranskiPrikaz,"Vnesi ime:")));
+                    try{
+                        Datoteke.piši(rezultati);}catch(IOException ignored){}
                     stranskiPrikaz.osvežiRezultate(rezultati);
                 }
             }
