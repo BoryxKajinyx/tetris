@@ -381,8 +381,10 @@ public class IgralnaPlošča extends JPanel {
                 case KeyEvent.VK_SPACE:
                     if (!jeKonecIgre && !jePavza)
                         spustiLikNaDnoDeske();
-                    else
+                    else{
+                        jePavza=false;
                         konecIgre();
+                    }
                     break;
                 case KeyEvent.VK_Y:
                 case KeyEvent.VK_ENTER:
